@@ -6,8 +6,6 @@ module.exports = Chaplin.View.extend({
    initialize: function() {
       this.template = require('views/user/user');
       Chaplin.View.prototype.initialize.call(this, arguments);
-
-      this.model.on('', this.render);
    },
 
    getTemplateFunction: function() {
