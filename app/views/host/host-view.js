@@ -1,5 +1,7 @@
+var CategoriesView = require('views/host/categories-view');
+
 module.exports = Chaplin.View.extend({
-   noWrap: true,
+   noWrap: false,
    autoRender: true,
    container: '#main-region',
 
@@ -7,9 +9,20 @@ module.exports = Chaplin.View.extend({
       'submit form': 'createEvent'
    },
 
-   initialize: function() {
+   initialize: function(options) {
+      this.categories = options.categories;
       this.template = require('views/host/host');
       Chaplin.View.prototype.initialize.call(this, arguments);
+   },
+
+   render: function() {
+      Chaplin.View.prototype.render.call(this, arguments);
+
+      this.subview('categories', new CategoriesView({
+         model: this.model,
+         collection: this.categories,
+         container: this.$('#categories')
+      }));
    },
 
    getTemplateFunction: function() {
@@ -24,9 +37,6 @@ module.exports = Chaplin.View.extend({
       e.preventDefault();
 
       var data = this.$('form').serializeArray();
-
-      console.log('ok lets post this shit!', data);
-
       $.ajax({
          type: 'post',
          dataType: 'json',
