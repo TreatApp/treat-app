@@ -3,11 +3,11 @@ var NavController = require('controllers/nav-controller');
 var MainView = require('views/main/main-view');
 
 module.exports = Chaplin.Controller.extend({
-   show: function (params) {
+   show: function (params, options) {
       this.model = new Chaplin.Model();
       this.collection = new EventsCollection();
 
-      this.nav = new NavController({ model: this.model });
+      this.nav = new NavController(options);
 
       this.view = new MainView({
          model: this.model,

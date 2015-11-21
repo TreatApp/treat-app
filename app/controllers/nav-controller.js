@@ -5,9 +5,9 @@ module.exports = Chaplin.Controller.extend({
       this.model = new Chaplin.Model();
 
       this.collection = new Chaplin.Collection([
-         { action: 'eat', icon: 'cutlery' },
-         { action: 'host', icon: 'home' },
-         { action: 'user', icon: 'user' }
+         { action: 'main', icon: 'cutlery', active: false },
+         { action: 'host', icon: 'home', active: false },
+         { action: 'user', icon: 'user', active: false }
       ]);
 
       this.view = new NavView({
@@ -15,10 +15,6 @@ module.exports = Chaplin.Controller.extend({
          collection: this.collection
       });
 
-      this.subscribeEvent('navigate', this.navigate);
-   },
-
-   navigate: function(action) {
-      this.publishEvent('nav:' + action);
+      this.collection.findWhere({action: options.controller}).set('active', true);
    }
 });
