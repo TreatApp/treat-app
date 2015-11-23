@@ -1,9 +1,14 @@
 <div class="panel panel-default">
     <div class="panel-body">
         <h3>{{title}}</h3>
+        <p class="text-muted">
+            {{#each categories}}
+               <em>{{name}}</em>
+            {{/each}}
+        </p>
         <p>{{description}}</p>
-        Antal platser: {{slots}}<br>
-        Pris/person: {{price}} kr<br>
-        Värd: {{user.firstName}} {{user.lastName}}
+    </div>
+    <div class="panel-footer">
+        Värd: {{user.firstName}} {{user.lastName}} &nbsp;&bull;&nbsp; Antal platser: {{slots}} &nbsp;&bull;&nbsp; Pris/person: {{price}} kr
     </div>
 </div>

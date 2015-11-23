@@ -20,5 +20,23 @@ module.exports = Chaplin.Controller.extend({
          model: this.model,
          categories: this.categories
       });
+      this.listenTo(this.view, 'createEvent', this.createEvent);
+   },
+
+   createEvent: function(data) {
+      console.log('Create event with data: ', data);
+
+      $.ajax({
+         type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: '/events',
+         data: data,
+         success: _.bind(this.success, this)
+      });
+   },
+
+   success: function() {
+      console.log("SUCCESS!");
    }
 });
