@@ -29,8 +29,6 @@ module.exports = Chaplin.Controller.extend({
    },
 
    createEvent: function(data) {
-      console.log('Create event with data: ', data);
-
       $.ajax({
          type: 'post',
          dataType: 'json',
@@ -42,6 +40,6 @@ module.exports = Chaplin.Controller.extend({
    },
 
    success: function() {
-      console.log("SUCCESS!");
+      alert("Ditt evenemang har skapats!");
    }
 });
