@@ -7,7 +7,7 @@ exports.config = {
       },
       stylesheets: {
          joinTo: {
-            'stylesheets/treat.css': /^(bower_components|app)/
+            'stylesheets/treat.css': /^(app)/
          }
       },
       templates: {

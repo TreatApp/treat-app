@@ -1,16 +1,41 @@
-@import "/bower_components/bootstrap/less/variables.less";
-@import "/bower_components/bootstrap/less/mixins.less";
+@import "/bower_components/bootstrap/less/bootstrap.less";
 @import "/bower_components/font-awesome/less/font-awesome.less";
 
-html, body {
-  background-color: #fff;
-}
+@navbar-inverse-bg: #b42bb1;
+@navbar-inverse-link-color: #fff;
 
-.noselect {
+body {
+  background-color: #fff;
+  padding-top: @navbar-height + 20;
+  padding-bottom: @navbar-height + 20;
+
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.header-logo {
+  margin: 10px auto;
+  height: 30px;
+}
+.navbar, .navbar-fixed-top, .navbar-fixed-bottom {
+  text-align: center;
+  border: 0 !important;
+}
+.navbar-collapse.collapse {
+  display: block !important;
+}
+.navbar-nav > li > a {
+  padding: 12px 30px;
+}
+.navbar-nav > li, .navbar-nav {
+  float: left !important;
+  margin: 0 !important;
+}
+
+.panel h3 {
+  margin-top: 5px;
 }
