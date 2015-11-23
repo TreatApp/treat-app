@@ -36,13 +36,12 @@ module.exports = Chaplin.View.extend({
    createEvent: function(e) {
       e.preventDefault();
 
-      var data = this.$('form').serializeArray();
       $.ajax({
          type: 'post',
          dataType: 'json',
          contentType: 'application/json; charset=UTF-8',
          url: '/events',
-         data: JSON.stringify(data),
+         data: this.$('form').serializeJSON(),
          success: _.bind(this.success, this),
          error: _.bind(this.error, this)
       });
