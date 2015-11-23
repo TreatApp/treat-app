@@ -1,5 +1,6 @@
 var EventsCollection = require('collections/events-collection');
 var NavController = require('controllers/nav-controller');
+var HeaderView = require('views/main/header-view');
 var MainView = require('views/main/main-view');
 
 module.exports = Chaplin.Controller.extend({
@@ -8,6 +9,10 @@ module.exports = Chaplin.Controller.extend({
       this.collection = new EventsCollection();
 
       this.nav = new NavController(options);
+
+      this.headerView = new HeaderView({
+         model: this.model
+      });
 
       this.view = new MainView({
          model: this.model,
