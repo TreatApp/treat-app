@@ -1,14 +1,13 @@
 var Application = require('application');
 var Auth = require('utils/auth');
+var Url = require('utils/url');
 
 $(function () {
    Auth.initialize();
 
    $.ajaxSetup({
       beforeSend: function(jqXHR) {
-         if(window.location.hostname === 'localhost') {
-            this.url = 'http://localhost:56439/api' + this.url;
-         }
+         this.url = Url.prefix(this.url);
       }
    });
 
