@@ -5,37 +5,36 @@ module.exports = {
          xfbml: true,
          version: 'v2.5'
       });
-
-      this.check();
    },
 
    check: function() {
       FB.getLoginStatus(function(response) {
-         console.log('status checked and...', response);
-
-         if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-         } else if (response.status === 'not_authorized') {
-            // The person is logged into Facebook, but not your app.
-         } else {
-            // The person is not logged into Facebook, so we're not sure if
-            // they are logged into this app or not.
+         if (response.status !== 'connected') {
+            Chaplin.utils.redirectTo({ url: '/' });
          }
       });
    },
 
    login: function() {
       FB.login(function(response) {
-         console.log('tried login and...', response);
-
          if (response.status === 'connected') {
-            // Logged into your app and Facebook.
-         } else if (response.status === 'not_authorized') {
-            // The person is logged into Facebook, but not your app.
-         } else {
-            // The person is not logged into Facebook, so we're not sure if
-            // they are logged into this app or not.
+            Chaplin.utils.redirectTo({ url: '/main' });
+         }
+         else {
+            Chaplin.utils.redirectTo({ url: '/' });
          }
       }, {scope: 'public_profile, email'});
+   },
+
+   getInfo: function() {
+      FB.api('/me', function(response) {
+         console.log(JSON.stringify(response));
+      });
+   },
+
+   logout: function() {
+      FB.logout(function(response) {
+         // Person is now logged out
+      });
    }
 };

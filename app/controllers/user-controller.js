@@ -1,10 +1,11 @@
+var AuthController = require('controllers/auth-controller');
 var NavController = require('controllers/nav-controller');
 var HeaderView = require('views/user/header-view');
 var UserView = require('views/user/user-view');
 var EditUserView = require('views/user/edit-user-view');
 var UserModel = require('models/user-model');
 
-module.exports = Chaplin.Controller.extend({
+module.exports = AuthController.extend({
    show: function (params, options) {
       this.model = new UserModel({ id: 7 });
 
