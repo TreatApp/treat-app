@@ -1,4 +1,7 @@
 module.exports = {
+
+   token: '',
+
    initialize: function() {
       FB.init({
          appId: '150880668605723',
@@ -9,17 +12,23 @@ module.exports = {
    },
 
    check: function() {
+      var auth = this;
       FB.getLoginStatus(function(response) {
-         if (response.status !== 'connected') {
+         if (response.status === 'connected') {
+            auth.saveToken(response.authResponse);
+         }
+         else {
             Chaplin.utils.redirectTo({ url: '/' });
          }
       });
    },
 
    login: function() {
+      var auth = this;
       FB.login(function(response) {
          if (response.status === 'connected') {
-            Chaplin.utils.redirectTo({ url: '/main' });
+            auth.saveToken(response.authResponse);
+            auth.getInfo();
          }
          else {
             Chaplin.utils.redirectTo({ url: '/' });
@@ -28,14 +37,41 @@ module.exports = {
    },
 
    getInfo: function() {
-      FB.api('/me', function(response) {
-         console.log(JSON.stringify(response));
+      var auth = this;
+      FB.api('/me', {fields: ['first_name', 'last_name', 'email']}, function(response) {
+         auth.serverLogin(response);
       });
+   },
+
+   serverLogin: function(data) {
+      var user = {
+         externalId: data.id,
+         firstName: data.first_name,
+         lastName: data.last_name,
+         email: data.email
+      };
+
+      $.ajax({
+         type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: '/auth',
+         data: JSON.stringify(user),
+         success: _.bind(this.success, this)
+      });
+   },
+
+   success: function() {
+      Chaplin.utils.redirectTo({ url: '/main' });
    },
 
    logout: function() {
       FB.logout(function(response) {
          Chaplin.utils.redirectTo({ url: '/' });
       });
+   },
+
+   saveToken: function(authResponse) {
+      this.token = btoa(authResponse.userID + ':' + authResponse.accessToken);
    }
 };

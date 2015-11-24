@@ -8,6 +8,10 @@ $(function () {
    $.ajaxSetup({
       beforeSend: function(jqXHR) {
          this.url = Url.prefix(this.url);
+
+         if(Auth.token) {
+            jqXHR.setRequestHeader('Authorization', 'Basic ' + Auth.token);
+         }
       }
    });
 
