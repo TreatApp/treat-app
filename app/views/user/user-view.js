@@ -3,6 +3,10 @@ module.exports = Chaplin.View.extend({
    autoRender: true,
    container: '#main-region',
 
+   events: {
+      'click .js-logout': 'logout'
+   },
+
    initialize: function() {
       this.template = require('views/user/user');
       Chaplin.View.prototype.initialize.call(this, arguments);
@@ -14,5 +18,10 @@ module.exports = Chaplin.View.extend({
 
    getTemplateData: function() {
       return this.model.attributes;
+   },
+
+   logout: function(e) {
+      e.preventDefault();
+      this.trigger('logout');
    }
 });

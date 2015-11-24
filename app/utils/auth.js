@@ -2,6 +2,7 @@ module.exports = {
    initialize: function() {
       FB.init({
          appId: '150880668605723',
+         status: true,
          xfbml: true,
          version: 'v2.5'
       });
@@ -34,7 +35,7 @@ module.exports = {
 
    logout: function() {
       FB.logout(function(response) {
-         // Person is now logged out
+         Chaplin.utils.redirectTo({ url: '/' });
       });
    }
 };

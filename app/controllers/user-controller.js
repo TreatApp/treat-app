@@ -4,6 +4,7 @@ var HeaderView = require('views/user/header-view');
 var UserView = require('views/user/user-view');
 var EditUserView = require('views/user/edit-user-view');
 var UserModel = require('models/user-model');
+var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
    show: function (params, options) {
@@ -41,6 +42,7 @@ module.exports = AuthController.extend({
       this.view = new UserView({
          model: this.model
       });
+      this.listenTo(this.view, 'logout', this.logout);
    },
 
    editUser: function() {
@@ -63,5 +65,9 @@ module.exports = AuthController.extend({
 
    success: function() {
       Chaplin.utils.redirectTo({ url: '/user' });
+   },
+
+   logout: function() {
+      Auth.logout();
    }
 });
