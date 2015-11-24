@@ -1,6 +1,9 @@
 var Application = require('application');
+var Auth = require('utils/auth');
 
 $(function () {
+   Auth.initialize();
+
    $.ajaxSetup({
       beforeSend: function(jqXHR) {
          if(window.location.hostname === 'localhost') {
@@ -9,9 +12,9 @@ $(function () {
       }
    });
 
-    Handlebars.registerHelper('date', function(date, format) {
-        return moment(date).format(format);
-    });
+   Handlebars.registerHelper('date', function(date, format) {
+      return moment(date).format(format);
+   });
 
    new Application({
          title: 'Treat',

@@ -1,7 +1,13 @@
+var Auth = require('utils/auth');
+
 module.exports = Chaplin.View.extend({
    noWrap: true,
    autoRender: true,
    container: '#main-region',
+
+   events: {
+      'click button': 'login'
+   },
 
    initialize: function () {
       this.template = require('views/login/login');
@@ -24,5 +30,10 @@ module.exports = Chaplin.View.extend({
    dispose: function() {
       Chaplin.View.prototype.dispose.call(this, arguments);
       $('body').removeClass('login');
+   },
+
+   login: function(e) {
+      e.preventDefault();
+      Auth.login();
    }
 });
