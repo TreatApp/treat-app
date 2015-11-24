@@ -8,7 +8,7 @@ var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
    show: function (params, options) {
-      this.model = new UserModel({ id: 7 });
+      this.model = new UserModel();
 
       this.nav = new NavController(options);
 
@@ -23,7 +23,7 @@ module.exports = AuthController.extend({
    },
 
    edit: function(params, options) {
-      this.model = new UserModel({ id: 7 });
+      this.model = new UserModel();
 
       this.nav = new NavController(options);
 
@@ -57,7 +57,7 @@ module.exports = AuthController.extend({
          type: 'put',
          dataType: 'json',
          contentType: 'application/json; charset=UTF-8',
-         url: '/users',
+         url: '/user',
          data: data,
          success: _.bind(this.success, this)
       });
