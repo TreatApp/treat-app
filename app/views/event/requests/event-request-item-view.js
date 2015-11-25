@@ -3,7 +3,7 @@ module.exports = Chaplin.View.extend({
    autoRender: true,
 
    initialize: function() {
-      this.template = require('views/event/event-log-item');
+      this.template = require('views/event/requests/event-request-item');
       Chaplin.View.prototype.initialize.call(this, arguments);
    },
 

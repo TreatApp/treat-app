@@ -1,0 +1,23 @@
+var EventRequestItemView = require('views/event/requests/event-request-item-view');
+
+module.exports = Chaplin.CollectionView.extend({
+   noWrap: true,
+   autoRender: true,
+   itemView: EventRequestItemView,
+   container: '#main-region',
+   listSelector: '#event-requests',
+   animationDuration: 0,
+
+   initialize: function() {
+      this.template = require('views/event/requests/event-requests');
+      Chaplin.CollectionView.prototype.initialize.call(this, arguments);
+   },
+
+   getTemplateFunction: function() {
+      return this.template;
+   },
+
+   getTemplateData: function() {
+      return this.model.attributes;
+   }
+});
