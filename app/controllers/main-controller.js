@@ -1,11 +1,10 @@
 var EventsCollection = require('collections/events-collection');
-var AuthController = require('controllers/auth-controller');
 var NavController = require('controllers/nav-controller');
 var HeaderView = require('views/main/header-view');
 var MainView = require('views/main/main-view');
 var MapView = require('views/main/map-view');
 
-module.exports = AuthController.extend({
+module.exports = Chaplin.Controller.extend({
    show: function (params, options) {
       this.model = new Chaplin.Model();
       this.collection = new EventsCollection();

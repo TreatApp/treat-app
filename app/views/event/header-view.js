@@ -1,9 +1,10 @@
 module.exports = Chaplin.View.extend({
    noWrap: true,
    autoRender: true,
+   container: '#header-region',
 
    initialize: function() {
-      this.template = require('views/main/event-item');
+      this.template = require('views/event/header');
       Chaplin.View.prototype.initialize.call(this, arguments);
    },
 
