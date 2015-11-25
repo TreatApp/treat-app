@@ -24,6 +24,7 @@ module.exports = Chaplin.Controller.extend({
          model: this.model,
          collection: this.eventLogs
       });
+      this.listenTo(this.eventLogView, 'save', this.saveLog);
 
       this.eventRequestsView = new EventRequestsView({
          model: this.model,
@@ -42,5 +43,20 @@ module.exports = Chaplin.Controller.extend({
       this.view = new EventView({
          model: this.model
       });
+   },
+
+   saveLog: function(data) {
+      $.ajax({
+         type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: this.eventLogs.url(),
+         data: data,
+         success: _.bind(this.saveLogSuccess, this)
+      });
+   },
+
+   saveLogSuccess: function() {
+      this.eventLogs.fetch();
    }
 });
