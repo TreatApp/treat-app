@@ -1,6 +1,6 @@
 module.exports = {
 
-   apiUrl: 'http://' + window.location.hostname + ':56439/api',
+   apiUrl: 'http://treat.cloudapp.net/api',
 
    prefix: function(url) {
       if(url.indexOf('/') == 0) {

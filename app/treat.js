@@ -9,8 +9,8 @@ $(function () {
       beforeSend: function(jqXHR) {
          this.url = Url.prefix(this.url);
 
-         if(Auth.token) {
-            jqXHR.setRequestHeader('Authorization', 'Basic ' + Auth.token);
+         if(Auth.getToken()) {
+            jqXHR.setRequestHeader('Authorization', 'Basic ' + Auth.getToken());
          }
       }
    });

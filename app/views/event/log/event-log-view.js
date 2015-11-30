@@ -4,7 +4,7 @@ module.exports = Chaplin.CollectionView.extend({
    noWrap: true,
    autoRender: true,
    itemView: EventLogItemView,
-   container: '#main-region',
+   container: '#tab-log',
    listSelector: '#event-logs',
    animationDuration: 0,
 

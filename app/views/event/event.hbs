@@ -1,10 +1,11 @@
 <h3>{{title}}</h3>
-<p class="text-muted">
-    {{#each categories}}
-       <em>{{name}}</em>
-    {{/each}}
-</p>
-<p>{{description}}</p>
-<p>
-    Värd: {{user.firstName}} {{user.lastName}} &nbsp;&bull;&nbsp; Antal platser: {{slots}} &nbsp;&bull;&nbsp; Pris/person: {{price}} kr
-</p>
+<ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#tab-info" data-toggle="tab">Info</a></li>
+    <li><a href="#tab-log" data-toggle="tab">Logg</a></li>
+    <li><a href="#tab-requests" data-toggle="tab">Deltagare</a></li>
+</ul><br>
+<div class="tab-content">
+    <div class="tab-pane active" id="tab-info"></div>
+    <div class="tab-pane" id="tab-requests"></div>
+    <div class="tab-pane" id="tab-log"></div>
+</div>

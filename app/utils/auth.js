@@ -1,7 +1,5 @@
 module.exports = {
 
-   token: '',
-
    initialize: function() {
       FB.init({
          appId: '150880668605723',
@@ -72,6 +70,10 @@ module.exports = {
    },
 
    saveToken: function(authResponse) {
-      this.token = btoa(authResponse.userID + ':' + authResponse.accessToken);
+      sessionStorage.setItem('authToken', btoa(authResponse.userID + ':' + authResponse.accessToken));
+   },
+
+   getToken: function() {
+      return sessionStorage.getItem('authToken');
    }
 };
