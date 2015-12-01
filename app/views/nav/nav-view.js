@@ -4,6 +4,7 @@ module.exports = Chaplin.CollectionView.extend({
    noWrap: true,
    autoRender: true,
    itemView: NavItemView,
+   listSelector: '.nav',
    container: '#nav-region',
    animationDuration: 0,
 
