@@ -34,6 +34,8 @@ module.exports = Chaplin.Controller.extend({
       this.eventRequests.fetch({
          success: _.bind(this.showEventRequests, this)
       });
+
+      this.subscribeEvent('updateRequest', _.bind(this.updateRequest, this));
    },
 
    showEventInfo: function() {
@@ -76,6 +78,17 @@ module.exports = Chaplin.Controller.extend({
    saveRequest: function(data) {
       $.ajax({
          type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: this.eventRequests.url(),
+         data: data,
+         success: _.bind(this.saveRequestSuccess, this)
+      });
+   },
+
+   updateRequest: function(data) {
+      $.ajax({
+         type: 'put',
          dataType: 'json',
          contentType: 'application/json; charset=UTF-8',
          url: this.eventRequests.url(),

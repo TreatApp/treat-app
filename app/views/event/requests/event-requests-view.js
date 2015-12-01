@@ -28,6 +28,6 @@ module.exports = Chaplin.CollectionView.extend({
    saveRequest: function(e) {
       e.preventDefault();
       var data = { status: 0 };
-      this.trigger('save', JSON.stringify(data));
+      this.trigger('save', JSON.serialize(data));
    }
 });
