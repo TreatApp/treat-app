@@ -38,6 +38,7 @@ module.exports = Chaplin.View.extend({
    saveRating: function(e) {
       e.preventDefault();
       var data = {
+         userId:  this.model.get('user').id,
          rating: $(e.currentTarget).data('rating')
       };
       this.trigger('saveRating', JSON.stringify(data));

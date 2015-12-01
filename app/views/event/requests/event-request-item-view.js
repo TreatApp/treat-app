@@ -1,3 +1,5 @@
+var RatingView = require('views/rating/rating-view');
+
 module.exports = Chaplin.View.extend({
    noWrap: true,
    autoRender: true,
@@ -18,6 +20,21 @@ module.exports = Chaplin.View.extend({
 
    getTemplateData: function() {
       return this.model.attributes;
+   },
+
+   render: function() {
+      Chaplin.View.prototype.render.call(this, arguments);
+
+      var ratingView = new RatingView({
+         model: this.model,
+         container: this.$('.user-rating')
+      });
+      this.subview('rating', ratingView);
+      this.listenTo(ratingView, 'saveRating', _.bind(this.saveRating, this));
+   },
+
+   saveRating: function(data) {
+      this.publishEvent('saveUserRating', data);
    },
 
    approveRequest: function(e) {
