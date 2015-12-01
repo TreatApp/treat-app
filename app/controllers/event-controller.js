@@ -79,6 +79,7 @@ module.exports = Chaplin.Controller.extend({
          dataType: 'json',
          contentType: 'application/json; charset=UTF-8',
          url: this.eventRequests.url(),
+         data: data,
          success: _.bind(this.saveRequestSuccess, this)
       });
    },

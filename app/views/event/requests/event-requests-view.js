@@ -27,7 +27,7 @@ module.exports = Chaplin.CollectionView.extend({
 
    saveRequest: function(e) {
       e.preventDefault();
-      var data = this.$('form').serializeJSON();
-      this.trigger('save', data);
+      var data = { status: 0 };
+      this.trigger('save', JSON.stringify(data));
    }
 });
