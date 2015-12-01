@@ -6,6 +6,8 @@ var EventRequestsView = require('views/event/requests/event-requests-view');
 var EventModel = require('models/event-model');
 var EventLogCollection = require('collections/event-logs-collection');
 var EventRequestCollection = require('collections/event-requests-collection');
+var EventRatingsCollection = require('collections/event-ratings-collection');
+var UserRatingsCollection = require('collections/user-ratings-collection');
 
 module.exports = Chaplin.Controller.extend({
    show: function (params, options) {
@@ -16,6 +18,12 @@ module.exports = Chaplin.Controller.extend({
 
       this.eventRequests = new EventRequestCollection();
       this.eventRequests.eventId = params.id;
+
+      this.eventRatings = new EventRatingsCollection();
+      this.eventRatings.eventId = params.id;
+
+      this.userRatings = new UserRatingsCollection();
+      this.userRatings.eventId = params.id;
 
       this.headerView = new HeaderView({
          model: this.model
@@ -36,12 +44,14 @@ module.exports = Chaplin.Controller.extend({
       });
 
       this.subscribeEvent('updateRequest', _.bind(this.updateRequest, this));
+      this.subscribeEvent('saveUserRating', _.bind(this.saveUserRating, this));
    },
 
    showEventInfo: function() {
       this.eventInfoView = new EventInfoView({
          model: this.model
       });
+      this.listenTo(this.eventInfoView, 'saveEventRating', this.saveEventRating);
    },
 
    showEventLog: function() {
@@ -99,5 +109,31 @@ module.exports = Chaplin.Controller.extend({
 
    saveRequestSuccess: function() {
       this.eventRequests.fetch();
+   },
+
+   saveEventRating: function(data) {
+      $.ajax({
+         type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: this.eventRatings.url(),
+         data: data,
+         success: _.bind(this.saveEventRatingSuccess, this)
+      });
+   },
+
+   saveEventRatingSuccess: function() {
+      this.model.fetch();
+   },
+
+   saveUserRating: function(data) {
+      $.ajax({
+         type: 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: this.userRatings.url(),
+         data: data,
+         success: _.bind(this.saveRequestSuccess, this)
+      });
    }
 });

@@ -30,6 +30,6 @@ module.exports = Chaplin.View.extend({
    },
 
    saveRating: function(data) {
-      console.log('save rating', data);
+      this.trigger('saveEventRating', data);
    }
 });
