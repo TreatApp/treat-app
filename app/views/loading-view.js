@@ -45,7 +45,7 @@ module.exports = Chaplin.View.extend({
 
    delayedShow: function() {
       if(this.shouldShow){
-         this.$el.show();
+         this.$el.fadeIn(100);
          this.spinner.spin(this.$el[0]);
       }
    },
@@ -53,6 +53,6 @@ module.exports = Chaplin.View.extend({
    hide: function() {
       this.shouldShow = false;
       this.spinner.stop();
-      this.$el.hide();
+      this.$el.fadeOut(100);
    }
 });

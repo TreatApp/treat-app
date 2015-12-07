@@ -1,6 +1,7 @@
 var Application = require('application');
 var Auth = require('utils/auth');
 var Url = require('utils/url');
+var ErrorView = require('views/error-view');
 var LoadingView = require('views/loading-view');
 
 $(function () {
@@ -24,10 +25,15 @@ $(function () {
       Chaplin.mediator.publish('loading:hide');
    });
 
+   $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
+      Chaplin.mediator.publish('error:show', 'Nätverksanropet misslyckades (' + jqXHR.status  + ')');
+   });
+
    Handlebars.registerHelper('date', function(date, format) {
       return moment(date).format(format);
    });
 
+   new ErrorView();
    new LoadingView();
 
    new Application({

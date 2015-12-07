@@ -42,6 +42,17 @@ body.login {
   z-index: @zindex-modal-background;
   background: rgba(0,0,0,0.2);
 }
+.error {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  z-index: @zindex-modal-background;
+  background: @btn-danger-bg;
+  color: @btn-danger-color;
+}
 .fixed-content {
   position: absolute;
   top: @navbar-height;
@@ -61,7 +72,8 @@ body.login {
   display: block !important;
 }
 .navbar-nav > li > a {
-  padding: 12px 15px;
+  height: 50px;
+  padding: 10px 15px;
 }
 .navbar-nav > li, .navbar-nav {
   float: left !important;
