@@ -1,7 +1,7 @@
 @import "/bower_components/bootstrap/less/bootstrap.less";
 @import "/bower_components/font-awesome/less/font-awesome.less";
 
-@brand-treat: #1a98a7;
+@brand-treat: darken(@brand-info, 10%);
 
 @navbar-inverse-bg: @brand-treat;
 @navbar-inverse-link-color: #fff;
@@ -81,14 +81,18 @@ body.login {
   float: left !important;
   margin: 0 !important;
 }
-.navbar-nav > li, .navbar-nav {
-  float: left !important;
-  margin: 0 !important;
-}
 .navbar-right {
   float: right!important;
 }
-
+.navbar-justified {
+  float: none !important;
+  display: table;
+  width: 100%;
+  > li {
+    float: none !important;
+    display: table-cell;
+  }
+}
 .panel h3 {
   margin-top: 5px;
 }
