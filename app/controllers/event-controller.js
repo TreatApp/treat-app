@@ -1,5 +1,6 @@
 var HeaderView = require('views/event/header-view');
 var EventView = require('views/event/event-view');
+var EditEventView = require('views/event/edit-event-view');
 var EventInfoView = require('views/event/info/event-info-view');
 var EventLogView = require('views/event/log/event-log-view');
 var EventRequestsView = require('views/event/requests/event-requests-view');
@@ -25,6 +26,7 @@ module.exports = Chaplin.Controller.extend({
       this.userRatings = new UserRatingsCollection();
       this.userRatings.eventId = params.id;
 
+      this.model.set('edit', false);
       this.headerView = new HeaderView({
          model: this.model
       });
@@ -45,6 +47,26 @@ module.exports = Chaplin.Controller.extend({
 
       this.subscribeEvent('updateRequest', _.bind(this.updateRequest, this));
       this.subscribeEvent('saveUserRating', _.bind(this.saveUserRating, this));
+   },
+
+   edit: function (params, options) {
+      this.model = new EventModel({ id: params.id });
+
+      this.model.set('edit', true);
+      this.headerView = new HeaderView({
+         model: this.model
+      });
+      this.listenTo(this.headerView, 'save', this.saveEvent);
+
+      this.model.fetch({
+         success: _.bind(this.showEditEvent, this)
+      });
+   },
+
+   showEditEvent: function() {
+      this.view = new EditEventView({
+         model: this.model
+      });
    },
 
    showEventInfo: function() {
@@ -68,6 +90,22 @@ module.exports = Chaplin.Controller.extend({
          collection: this.eventRequests
       });
       this.listenTo(this.eventRequestsView, 'save', this.saveRequest);
+   },
+
+   saveEvent: function() {
+      var data = this.view.getData();
+      $.ajax({
+         type: 'put',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: this.model.url(),
+         data: data,
+         success: _.bind(this.saveEventSuccess, this)
+      });
+   },
+
+   saveEventSuccess: function() {
+      Chaplin.utils.redirectTo({ url: '/event/' + this.model.id });
    },
 
    saveLog: function(data) {

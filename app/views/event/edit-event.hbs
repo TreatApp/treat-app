@@ -1,0 +1,28 @@
+<div>
+    <h3>{{title}}</h3>
+    <form>
+        <input type="hidden" name="id" value="{{id}}" />
+        <input type="hidden" name="location[id]" value="{{location.id}}" />
+        <div class="form-group">
+            <input type="text" name="title" class="form-control" value="{{title}}" placeholder="Rubrik" />
+        </div>
+        <div class="form-group">
+            <textarea name="description" class="form-control" rows="4" placeholder="Beskrivning">{{description}}</textarea>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="location[address]" value="{{location.address}}" placeholder="Adress" />
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="location[city]" value="{{location.city}}" placeholder="Stad" />
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="start" value="{{start}}" placeholder="Datum/tid" />
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="slots" value="{{slots}}" placeholder="Antal platser" />
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="price" value="{{price}}" placeholder="Pris/person" />
+        </div>
+    </form>
+</div>

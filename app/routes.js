@@ -3,6 +3,7 @@ module.exports = function(match){
    match('main', 'main#show');
    match('main/map', 'main#map');
    match('event/:id', 'event#show');
+   match('event/:id/edit', 'event#edit');
    match('host', 'host#show');
    match('host/create', 'host#create');
    match('user', 'user#show');
