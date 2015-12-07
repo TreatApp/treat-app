@@ -5,6 +5,10 @@ module.exports = Chaplin.View.extend({
    autoRender: true,
    container: '#tab-info',
 
+   events: {
+      'submit form': 'saveRequest'
+   },
+
    initialize: function() {
       this.template = require('views/event/info/event-info');
       Chaplin.View.prototype.initialize.call(this, arguments);
@@ -31,5 +35,11 @@ module.exports = Chaplin.View.extend({
 
    saveRating: function(data) {
       this.trigger('saveEventRating', data);
+   },
+
+   saveRequest: function(e) {
+      e.preventDefault();
+      var data = { status: 0 };
+      this.trigger('saveRequest', JSON.stringify(data));
    }
 });

@@ -1,4 +1,5 @@
 var HeaderView = require('views/event/header-view');
+var NavController = require('controllers/nav-controller');
 var EventView = require('views/event/event-view');
 var EditEventView = require('views/event/edit-event-view');
 var EventInfoView = require('views/event/info/event-info-view');
@@ -13,6 +14,8 @@ var UserRatingsCollection = require('collections/user-ratings-collection');
 module.exports = Chaplin.Controller.extend({
    show: function (params, options) {
       this.model = new EventModel({ id: params.id });
+
+      this.nav = new NavController(options);
 
       this.eventLogs = new EventLogCollection();
       this.eventLogs.eventId = params.id;
@@ -74,6 +77,8 @@ module.exports = Chaplin.Controller.extend({
          model: this.model
       });
       this.listenTo(this.eventInfoView, 'saveEventRating', this.saveEventRating);
+      this.listenTo(this.eventInfoView, 'saveRequest', this.saveRequest);
+
    },
 
    showEventLog: function() {
@@ -89,7 +94,6 @@ module.exports = Chaplin.Controller.extend({
          model: this.model,
          collection: this.eventRequests
       });
-      this.listenTo(this.eventRequestsView, 'save', this.saveRequest);
    },
 
    saveEvent: function() {

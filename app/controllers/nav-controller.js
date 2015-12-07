@@ -15,6 +15,9 @@ module.exports = Chaplin.Controller.extend({
          collection: this.collection
       });
 
-      this.collection.findWhere({action: options.controller}).set('active', true);
+      var item = this.collection.findWhere({action: options.controller});
+      if(item) {
+         item.set('active', true);
+      }
    }
 });
