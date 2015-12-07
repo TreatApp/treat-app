@@ -7,6 +7,7 @@ module.exports = function(match){
    match('host', 'host#show');
    match('host/create', 'host#create');
    match('user', 'user#show');
+   match('user/:id', 'user#show', {constraints: {id: /^\d+$/}});
    match('user/edit', 'user#edit');
    match(':args', 'login#show');
 };

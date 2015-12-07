@@ -5,8 +5,10 @@
 </p>
 <p>{{description}}</p>
 <p>
-    <img src="//graph.facebook.com/{{user.externalId}}/picture?type=small" class="img-circle" />
-    Värd: {{user.firstName}} {{user.lastName}} &nbsp;&bull;&nbsp; Antal platser: {{slots}} &nbsp;&bull;&nbsp; Pris/person: {{price}} kr
+    <img src="//graph.facebook.com/{{user.externalId}}/picture?type=square" class="img-circle" />
+    Värd: <a href="/user/{{user.id}}">{{user.firstName}} {{user.lastName}}</a> &nbsp;&bull;&nbsp;
+    Antal platser: {{slots}} &nbsp;&bull;&nbsp;
+    Pris/person: {{price}} kr
 </p>
 
 <h2>Gästbetyg</h2>

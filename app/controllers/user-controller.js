@@ -8,7 +8,7 @@ var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
    show: function (params, options) {
-      this.model = new UserModel();
+      this.model = new UserModel({ id: params.id });
 
       this.nav = new NavController(options);
 
