@@ -23,12 +23,14 @@ module.exports = {
 
    login: function() {
       var auth = this;
+      Chaplin.mediator.publish('loading:show');
       FB.login(function(response) {
          if (response.status === 'connected') {
             auth.saveToken(response.authResponse);
             auth.getInfo();
          }
          else {
+            Chaplin.mediator.publish('loading:hide');
             Chaplin.utils.redirectTo({ url: '/' });
          }
       }, {scope: 'public_profile, email'});
