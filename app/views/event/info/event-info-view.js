@@ -19,7 +19,11 @@ module.exports = Chaplin.View.extend({
    },
 
    getTemplateData: function() {
-      return this.model.attributes;
+      var data = this.model.attributes;
+      data.view = {
+         canRequest: true
+      };
+      return data;
    },
 
    render: function() {

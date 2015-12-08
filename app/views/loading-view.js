@@ -27,7 +27,7 @@ module.exports = Chaplin.View.extend({
 
    render: function() {
       Chaplin.View.prototype.render.call(this, arguments);
-      this.hide();
+      this.$el.hide();
    },
 
    getTemplateFunction: function() {

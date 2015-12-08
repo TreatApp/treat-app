@@ -14,7 +14,9 @@
 <h2>Gästbetyg</h2>
 <div id="event-rating"></div>
 
-<br><br>
-<form>
-    <button class="btn btn-primary btn-block">Skicka förfrågan</button>
-</form>
+{{#if view.canRequest }}
+    <br><br>
+    <form>
+        <button class="btn btn-primary btn-block">Skicka förfrågan</button>
+    </form>
+{{/if}}
