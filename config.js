@@ -1,4 +1,7 @@
 exports.config = {
+   paths: {
+      public: 'www'
+   },
    files: {
       javascripts: {
          joinTo: {
