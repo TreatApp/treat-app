@@ -6,17 +6,17 @@
 <p>{{description}}</p>
 <p>
     <img src="//graph.facebook.com/{{user.externalId}}/picture?type=square" class="img-circle" />
-    Värd: <a href="/user/{{user.id}}">{{user.firstName}} {{user.lastName}}</a> &nbsp;&bull;&nbsp;
-    Antal platser: {{slots}} &nbsp;&bull;&nbsp;
-    Pris/person: {{price}} kr
+    Host: <a href="/user/{{user.id}}">{{user.firstName}} {{user.lastName}}</a> &nbsp;&bull;&nbsp;
+    Seats: {{slots}} &nbsp;&bull;&nbsp;
+    Price: {{price}} SEK
 </p>
 
-<h2>Gästbetyg</h2>
+<h2>Rating</h2>
 <div id="event-rating"></div>
 
 {{#if view.canRequest }}
     <br><br>
     <form>
-        <button class="btn btn-primary btn-block">Skicka förfrågan</button>
+        <button class="btn btn-primary btn-block">Send request</button>
     </form>
 {{/if}}
