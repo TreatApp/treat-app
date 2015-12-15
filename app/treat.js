@@ -5,13 +5,13 @@ var ErrorView = require('views/error-view');
 var LoadingView = require('views/loading-view');
 
 $(function () {
-   window.isphone = false;
+   window.isPhone = false;
 
    if (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
-      window.isphone = true;
+      window.isPhone = true;
    }
 
-   if (window.isphone) {
+   if (window.isPhone) {
       document.addEventListener("deviceready", onDeviceReady, false);
    }
    else {
@@ -20,8 +20,12 @@ $(function () {
 });
 
 function onDeviceReady() {
-   Auth.initialize();
-   FastClick.attach(document.body);
+   if(!window.isPhone) {
+      Auth.initialize();
+   }
+   else {
+      FastClick.attach(document.body);
+   }
 
    $.ajaxSetup({
       beforeSend: function(jqXHR) {

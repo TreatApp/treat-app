@@ -1,46 +1,60 @@
 module.exports = {
 
    initialize: function() {
-      FB.init({
-         appId: '150880668605723',
-         status: true,
-         xfbml: true,
-         version: 'v2.5'
-      });
+      facebookConnectPlugin.browserInit('150880668605723');
    },
 
    check: function() {
       var auth = this;
-      FB.getLoginStatus(function(response) {
-         if (response.status === 'connected') {
-            auth.saveToken(response.authResponse);
-         }
-         else {
-            Chaplin.utils.redirectTo({ url: '/' });
-         }
-      });
+      facebookConnectPlugin.getLoginStatus(
+          function(response) {
+             if (response.status === 'connected') {
+                auth.saveToken(response.authResponse);
+             }
+             else {
+                Chaplin.utils.redirectTo({url: '/'});
+             }
+          },
+          function(response) {
+             console.log('Error', response);
+             Chaplin.utils.redirectTo({url: '/'});
+          }
+      );
    },
 
    login: function() {
       var auth = this;
       Chaplin.mediator.publish('loading:show');
-      FB.login(function(response) {
-         if (response.status === 'connected') {
-            auth.saveToken(response.authResponse);
-            auth.getInfo();
-         }
-         else {
-            Chaplin.mediator.publish('loading:hide');
-            Chaplin.utils.redirectTo({ url: '/' });
-         }
-      }, {scope: 'public_profile, email'});
+      facebookConnectPlugin.login(
+          ['public_profile', 'email'],
+          function(response) {
+            if (response.status === 'connected') {
+               auth.saveToken(response.authResponse);
+               auth.getInfo();
+            }
+            else {
+               Chaplin.mediator.publish('loading:hide');
+               Chaplin.utils.redirectTo({ url: '/' });
+            }
+          },
+          function(response) {
+             alert('Login error: ' + response);
+             Chaplin.mediator.publish('loading:hide');
+          }
+      );
    },
 
    getInfo: function() {
       var auth = this;
-      FB.api('/me', {fields: ['first_name', 'last_name', 'email']}, function(response) {
-         auth.serverLogin(response);
-      });
+      facebookConnectPlugin.api('/me',
+          null,
+          function(response) {
+            auth.serverLogin(response);
+          },
+          function(response) {
+             alert('Get info error: ' + response);
+          }
+      );
    },
 
    serverLogin: function(data) {
@@ -57,18 +71,21 @@ module.exports = {
          contentType: 'application/json; charset=UTF-8',
          url: '/auth',
          data: JSON.stringify(user),
-         success: _.bind(this.success, this)
+         success: function() {
+            Chaplin.utils.redirectTo({ url: '/main' });
+         }
       });
-   },
-
-   success: function() {
-      Chaplin.utils.redirectTo({ url: '/main' });
    },
 
    logout: function() {
-      FB.logout(function(response) {
-         Chaplin.utils.redirectTo({ url: '/' });
-      });
+      facebookConnectPlugin.logout(
+          function(response) {
+             Chaplin.utils.redirectTo({ url: '/' });
+          },
+          function(response) {
+             alert('Logout error: ' + response);
+          }
+      );
    },
 
    saveToken: function(authResponse) {
@@ -77,5 +94,9 @@ module.exports = {
 
    getToken: function() {
       return sessionStorage.getItem('authToken');
+   },
+
+   getUserId: function() {
+      return atob(this.getToken()).split(':')[0];
    }
 };
