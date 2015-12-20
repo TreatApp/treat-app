@@ -1,14 +1,10 @@
 module.exports = Chaplin.View.extend({
    noWrap: true,
    autoRender: true,
-   container: '#header-region',
-
-   events: {
-     'click .js-save': 'save'
-   },
+   container: '#main-region',
 
    initialize: function() {
-      this.template = require('./header');
+      this.template = require('./edit-profile');
       Chaplin.View.prototype.initialize.call(this, arguments);
    },
 
@@ -20,8 +16,7 @@ module.exports = Chaplin.View.extend({
       return this.model.attributes;
    },
 
-   save: function(e) {
-      e.preventDefault();
-      this.trigger('save');
+   getData: function() {
+      return this.$('form').serializeJSON();
    }
 });

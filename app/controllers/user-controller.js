@@ -2,12 +2,35 @@ var AuthController = require('controllers/auth-controller');
 var NavController = require('controllers/nav-controller');
 var HeaderView = require('views/user/header-view');
 var UserView = require('views/user/user-view');
-var EditUserView = require('views/user/edit-user-view');
+var ProfileView = require('views/user/profile/profile-view');
+var EditProfileView = require('views/user/profile/edit-profile-view');
 var UserModel = require('models/user-model');
 var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
-   show: function (params, options) {
+
+   show: function(params, options) {
+      this.model = new UserModel();
+
+      this.collection = new Chaplin.Collection([
+         { action: 'profile', title: 'Profile' },
+         { action: 'bank-account', title: 'Bank account' },
+         { action: 'credit-card', title: 'Credit card' }
+      ]);
+
+      this.nav = new NavController(options);
+
+      this.headerView = new HeaderView({
+         model: this.model
+      });
+
+      this.view = new UserView({
+         model: this.model,
+         collection: this.collection
+      });
+   },
+
+   viewProfile: function (params, options) {
       this.model = new UserModel({ id: params.id });
 
       this.nav = new NavController(options);
@@ -18,11 +41,11 @@ module.exports = AuthController.extend({
       });
 
       this.model.fetch({
-         success: _.bind(this.showUser, this)
+         success: _.bind(this.showProfileView, this)
       });
    },
 
-   edit: function(params, options) {
+   editProfile: function(params, options) {
       this.model = new UserModel();
 
       this.nav = new NavController(options);
@@ -34,19 +57,19 @@ module.exports = AuthController.extend({
       this.listenTo(this.headerView, 'save', this.saveUser);
 
       this.model.fetch({
-         success: _.bind(this.editUser, this)
+         success: _.bind(this.showEditProfileView, this)
       });
    },
 
-   showUser: function() {
-      this.view = new UserView({
+   showProfileView: function() {
+      this.view = new ProfileView({
          model: this.model
       });
       this.listenTo(this.view, 'logout', this.logout);
    },
 
-   editUser: function() {
-      this.view = new EditUserView({
+   showEditProfileView: function() {
+      this.view = new EditProfileView({
          model: this.model
       });
    },
@@ -64,7 +87,7 @@ module.exports = AuthController.extend({
    },
 
    success: function() {
-      Chaplin.utils.redirectTo({ url: '/user' });
+      Chaplin.utils.redirectTo({ url: '/user/profile' });
    },
 
    logout: function() {
