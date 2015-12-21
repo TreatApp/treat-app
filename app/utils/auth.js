@@ -1,7 +1,9 @@
 module.exports = {
 
    initialize: function() {
-      facebookConnectPlugin.browserInit('150880668605723');
+      if(!window.isPhone) {
+         facebookConnectPlugin.browserInit('155506791476444');
+      }
    },
 
    check: function() {
@@ -24,6 +26,7 @@ module.exports = {
 
    login: function() {
       var auth = this;
+      this.initialize();
       Chaplin.mediator.publish('loading:show');
       facebookConnectPlugin.login(
           ['public_profile', 'email'],

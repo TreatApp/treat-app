@@ -20,10 +20,7 @@ $(function () {
 });
 
 function onDeviceReady() {
-   if(!window.isPhone) {
-      Auth.initialize();
-   }
-   else {
+   if(window.isPhone) {
       FastClick.attach(document.body);
    }
 
