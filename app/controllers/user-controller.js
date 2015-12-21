@@ -4,10 +4,22 @@ var HeaderView = require('views/user/header-view');
 var UserView = require('views/user/user-view');
 var ProfileView = require('views/user/profile/profile-view');
 var EditProfileView = require('views/user/profile/edit-profile-view');
+var CreditCardView = require('views/user/credit-card/credit-card-view');
+var EditCreditCardView = require('views/user/credit-card/edit-credit-card-view');
+var BankAccountView = require('views/user/bank-account/bank-account-view');
+var EditBankAccountView = require('views/user/bank-account/edit-bank-account-view');
 var UserModel = require('models/user-model');
 var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
+
+   _initLayout: function(options) {
+      this.nav = new NavController(options);
+
+      this.headerView = new HeaderView({
+         model: this.model
+      });
+   },
 
    show: function(params, options) {
       this.model = new UserModel();
@@ -18,11 +30,7 @@ module.exports = AuthController.extend({
          { action: 'credit-card', title: 'Credit card' }
       ]);
 
-      this.nav = new NavController(options);
-
-      this.headerView = new HeaderView({
-         model: this.model
-      });
+      this._initLayout(options);
 
       this.view = new UserView({
          model: this.model,
@@ -32,13 +40,8 @@ module.exports = AuthController.extend({
 
    viewProfile: function (params, options) {
       this.model = new UserModel({ id: params.id });
-
-      this.nav = new NavController(options);
-
       this.model.set('edit', false);
-      this.headerView = new HeaderView({
-         model: this.model
-      });
+      this._initLayout(options);
 
       this.model.fetch({
          success: _.bind(this.showProfileView, this)
@@ -47,13 +50,9 @@ module.exports = AuthController.extend({
 
    editProfile: function(params, options) {
       this.model = new UserModel();
-
-      this.nav = new NavController(options);
-
       this.model.set('edit', true);
-      this.headerView = new HeaderView({
-         model: this.model
-      });
+      this._initLayout(options);
+
       this.listenTo(this.headerView, 'save', this.saveUser);
 
       this.model.fetch({
@@ -70,6 +69,46 @@ module.exports = AuthController.extend({
 
    showEditProfileView: function() {
       this.view = new EditProfileView({
+         model: this.model
+      });
+   },
+
+   viewCreditCard: function (params, options) {
+      this.model = new UserModel({ id: params.id });
+      this.model.set('edit', false);
+      this._initLayout(options);
+
+      this.view = new CreditCardView({
+         model: this.model
+      });
+   },
+
+   editCreditCard: function(params, options) {
+      this.model = new UserModel();
+      this.model.set('edit', true);
+      this._initLayout(options);
+
+      this.view = new EditCreditCardView({
+         model: this.model
+      });
+   },
+
+   viewBankAccount: function (params, options) {
+      this.model = new UserModel({ id: params.id });
+      this.model.set('edit', false);
+      this._initLayout(options);
+
+      this.view = new BankAccountView({
+         model: this.model
+      });
+   },
+
+   editBankAccount: function(params, options) {
+      this.model = new UserModel();
+      this.model.set('edit', true);
+      this._initLayout(options);
+
+      this.view = new EditBankAccountView({
          model: this.model
       });
    },

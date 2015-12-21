@@ -8,11 +8,13 @@ module.exports = function(match){
    match('host/create', 'host#create');
 
    match('user', 'user#show');
-   match('user/profile/view', 'user#viewProfile');
-   match('user/profile/view/:id', 'user#viewProfile', {constraints: {id: /^\d+$/}});
+   match('user/profile', 'user#viewProfile');
+   match('user/profile/:id', 'user#viewProfile', {constraints: {id: /^\d+$/}});
    match('user/profile/edit', 'user#editProfile');
-   match('user/bank-account', 'user#bankAccount');
-   match('user/credit-card', 'user#creditCard');
+   match('user/bank-account', 'user#viewBankAccount');
+   match('user/bank-account/edit', 'user#editBankAccount');
+   match('user/credit-card', 'user#viewCreditCard');
+   match('user/credit-card/edit', 'user#editCreditCard');
 
    match('', 'login#show');
    match(':args', 'login#show');
