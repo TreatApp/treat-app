@@ -49,7 +49,7 @@ module.exports = {
 
    getInfo: function() {
       var auth = this;
-      facebookConnectPlugin.api('/me',
+      facebookConnectPlugin.api('/me?fields=first_name,last_name,email',
           null,
           function(response) {
             auth.serverLogin(response);

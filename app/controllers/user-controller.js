@@ -9,6 +9,8 @@ var EditCreditCardView = require('views/user/credit-card/edit-credit-card-view')
 var BankAccountView = require('views/user/bank-account/bank-account-view');
 var EditBankAccountView = require('views/user/bank-account/edit-bank-account-view');
 var UserModel = require('models/user-model');
+var BankAccountsCollection = require('collections/bank-accounts-collection');
+var PaymentMethodsCollection = require('collections/payment-methods-collection');
 var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
@@ -48,6 +50,13 @@ module.exports = AuthController.extend({
       });
    },
 
+   showProfileView: function() {
+      this.view = new ProfileView({
+         model: this.model
+      });
+      this.listenTo(this.view, 'logout', this.logout);
+   },
+
    editProfile: function(params, options) {
       this.model = new UserModel();
       this.model.set('edit', true);
@@ -60,13 +69,6 @@ module.exports = AuthController.extend({
       });
    },
 
-   showProfileView: function() {
-      this.view = new ProfileView({
-         model: this.model
-      });
-      this.listenTo(this.view, 'logout', this.logout);
-   },
-
    showEditProfileView: function() {
       this.view = new EditProfileView({
          model: this.model
@@ -74,10 +76,17 @@ module.exports = AuthController.extend({
    },
 
    viewCreditCard: function (params, options) {
-      this.model = new UserModel({ id: params.id });
+      this.model = new UserModel();
       this.model.set('edit', false);
       this._initLayout(options);
 
+      this.collection = new PaymentMethodsCollection();
+      this.collection.fetch({
+         success: _.bind(this.showCreditCardView, this)
+      });
+   },
+
+   showCreditCardView: function() {
       this.view = new CreditCardView({
          model: this.model
       });
@@ -88,16 +97,32 @@ module.exports = AuthController.extend({
       this.model.set('edit', true);
       this._initLayout(options);
 
+      this.listenTo(this.headerView, 'save', this.savePaymentMethod);
+
+      this.collection = new PaymentMethodsCollection();
+      this.collection.fetch({
+         success: _.bind(this.showEditCreditCardView, this)
+      });
+   },
+
+   showEditCreditCardView: function() {
       this.view = new EditCreditCardView({
-         model: this.model
+         model: (this.collection.length > 0) ? this.collection.models[0] : new Chaplin.Model()
       });
    },
 
    viewBankAccount: function (params, options) {
-      this.model = new UserModel({ id: params.id });
+      this.model = new UserModel();
       this.model.set('edit', false);
       this._initLayout(options);
 
+      this.collection = new BankAccountsCollection();
+      this.collection.fetch({
+         success: _.bind(this.showBankAccountView, this)
+      });
+   },
+
+   showBankAccountView: function() {
       this.view = new BankAccountView({
          model: this.model
       });
@@ -108,8 +133,17 @@ module.exports = AuthController.extend({
       this.model.set('edit', true);
       this._initLayout(options);
 
+      this.listenTo(this.headerView, 'save', this.saveBankAccount);
+
+      this.collection = new BankAccountsCollection();
+      this.collection.fetch({
+         success: _.bind(this.showEditBankAccountView, this)
+      });
+   },
+
+   showEditBankAccountView: function() {
       this.view = new EditBankAccountView({
-         model: this.model
+         model: (this.collection.length > 0) ? this.collection.models[0] : new Chaplin.Model()
       });
    },
 
@@ -121,12 +155,44 @@ module.exports = AuthController.extend({
          contentType: 'application/json; charset=UTF-8',
          url: '/user',
          data: data,
-         success: _.bind(this.success, this)
+         success: _.bind(this.saveUserSuccess, this)
       });
    },
 
-   success: function() {
+   saveUserSuccess: function() {
       Chaplin.utils.redirectTo({ url: '/user/profile' });
+   },
+
+   saveBankAccount: function() {
+      var data = this.view.getData();
+      $.ajax({
+         type: data.id ? 'put' : 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: '/bankAccount',
+         data: data,
+         success: _.bind(this.saveBankAccountSuccess, this)
+      });
+   },
+
+   saveBankAccountSuccess: function() {
+      Chaplin.utils.redirectTo({ url: '/user/bank-account' });
+   },
+
+   savePaymentMethod: function() {
+      var data = this.view.getData();
+      $.ajax({
+         type: data.id ? 'put' : 'post',
+         dataType: 'json',
+         contentType: 'application/json; charset=UTF-8',
+         url: '/paymentMethod',
+         data: data,
+         success: _.bind(this.savePaymentMethodSuccess, this)
+      });
+   },
+
+   savePaymentMethodSuccess: function() {
+      Chaplin.utils.redirectTo({ url: '/user/payment-method' });
    },
 
    logout: function() {
