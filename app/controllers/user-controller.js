@@ -9,8 +9,10 @@ var EditCreditCardView = require('views/user/credit-card/edit-credit-card-view')
 var BankAccountView = require('views/user/bank-account/bank-account-view');
 var EditBankAccountView = require('views/user/bank-account/edit-bank-account-view');
 var UserModel = require('models/user-model');
+var SessionModel = require('models/session-model');
 var BankAccountsCollection = require('collections/bank-accounts-collection');
 var PaymentMethodsCollection = require('collections/payment-methods-collection');
+var Payment = require('utils/payment');
 var Auth = require('utils/auth');
 
 module.exports = AuthController.extend({
@@ -108,6 +110,12 @@ module.exports = AuthController.extend({
    showEditCreditCardView: function() {
       this.view = new EditCreditCardView({
          model: (this.collection.length > 0) ? this.collection.models[0] : new Chaplin.Model()
+      });
+      this.session = new SessionModel();
+      this.session.fetch({
+         success: function(session) {
+            Payment.initialize(session.get('paymentToken'), 'braintree-form');
+         }
       });
    },
 

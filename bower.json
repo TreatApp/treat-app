@@ -12,7 +12,8 @@
       "font-awesome": "4.2.0",
       "spin.js": "2.0.1",
       "jquery-serialize-object": "2.5.0",
-      "fastclick": "~1.0.6"
+      "fastclick": "~1.0.6",
+      "braintree-web": "~2.17.5"
    },
    "overrides": {
       "backbone": {
