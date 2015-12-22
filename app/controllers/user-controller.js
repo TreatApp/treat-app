@@ -108,13 +108,18 @@ module.exports = AuthController.extend({
    },
 
    showEditCreditCardView: function() {
+      var that = this;
       this.view = new EditCreditCardView({
          model: (this.collection.length > 0) ? this.collection.models[0] : new Chaplin.Model()
       });
       this.session = new SessionModel();
       this.session.fetch({
          success: function(session) {
-            Payment.initialize(session.get('paymentToken'), 'braintree-form');
+            Payment.initialize({
+               container: 'braintree-form',
+               token: session.get('paymentToken'),
+               submit: _.bind(that.savePaymentMethod, that)
+            });
          }
       });
    },
@@ -187,20 +192,24 @@ module.exports = AuthController.extend({
       Chaplin.utils.redirectTo({ url: '/user/bank-account' });
    },
 
-   savePaymentMethod: function() {
-      var data = this.view.getData();
+   savePaymentMethod: function(data) {
+      var paymentMethod =  {
+         externalId: data.nonce,
+         name: data.details.cardType,
+         description: data.details.lastTwo
+      };
       $.ajax({
-         type: data.id ? 'put' : 'post',
+         type: 'post',
          dataType: 'json',
          contentType: 'application/json; charset=UTF-8',
          url: '/paymentMethod',
-         data: data,
+         data: JSON.stringify(paymentMethod),
          success: _.bind(this.savePaymentMethodSuccess, this)
       });
    },
 
    savePaymentMethodSuccess: function() {
-      Chaplin.utils.redirectTo({ url: '/user/payment-method' });
+      Chaplin.utils.redirectTo({ url: '/user/credit-card' });
    },
 
    logout: function() {
