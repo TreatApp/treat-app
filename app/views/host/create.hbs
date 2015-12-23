@@ -1,6 +1,6 @@
 <h3>Invite to dinner</h3>
 
-<form>
+<form id="eventForm">
     <div class="form-group">
         <input type="text" class="form-control" name="title" placeholder="Title" />
     </div>
@@ -23,4 +23,15 @@
         <input type="text" class="form-control" name="price" placeholder="Price" />
     </div>
     <div id="categories"></div>
+</form>
+<br><hr><br>
+<form id="uploadForm">
+    <span class="fileUpload btn btn-default">
+        Upload image
+        <input type="file" id="uploadFile" />
+    </span>
+    <div class="progress progress-striped active hide">
+        <div class="progress-bar progress-bar-info" style="width: 0%;"></div>
+    </div>
+    <div id="image-container"></div>
 </form>

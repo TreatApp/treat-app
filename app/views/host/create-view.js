@@ -5,6 +5,10 @@ module.exports = Chaplin.View.extend({
    autoRender: true,
    container: '#main-region',
 
+   events: {
+      'change #uploadFile': 'uploadFile'
+   },
+
    initialize: function(options) {
       this.categories = options.categories;
       this.template = require('views/host/create');
@@ -30,6 +34,44 @@ module.exports = Chaplin.View.extend({
    },
 
    getData: function() {
-      return this.$('form').serializeJSON();
+      return this.$('#eventForm').serializeJSON();
+   },
+
+   uploadFile: function(e) {
+      var formData = new FormData();
+      formData.append('file', e.target.files[0]);
+
+      var progress = this.$('.progress');
+      var progressBar = this.$('.progress-bar');
+      progress.removeClass('hide');
+      progressBar.width("0%");
+
+      $.ajax({
+         url: '/eventImage',
+         type: 'POST',
+         xhr: function() {
+            var xhr = $.ajaxSettings.xhr();
+            if (xhr.upload) {
+               xhr.upload.addEventListener('progress', function(evt) {
+                  var percent = (evt.loaded / evt.total) * 100;
+                  progressBar.width(percent + "%");
+               }, false);
+            }
+            return xhr;
+         },
+         success: function(data) {
+            $("#uploadForm").trigger("reset");
+            progress.addClass('hide');
+            $('#image-container').append('<img src="https://treat.blob.core.windows.net/events/' + data.fileName + '" style="width: 100px; height: 100px;" class="img-thumbnail" />');
+         },
+         error: function() {
+            $("#uploadForm").trigger("reset");
+            progress.addClass('hide');
+         },
+         data: formData,
+         cache: false,
+         contentType: false,
+         processData: false
+      }, 'json');
    }
 });
