@@ -63,6 +63,7 @@ module.exports = Chaplin.View.extend({
             $("#uploadForm").trigger("reset");
             progress.addClass('hide');
             $('#image-container').append('<img src="https://treat.blob.core.windows.net/events/' + data.fileName + '" style="width: 100px; height: 100px;" class="img-thumbnail" />');
+            $('#eventForm').append('<input type="hidden" name="eventImages[][fileName]" value="' + data.fileName + '" />');
          },
          error: function() {
             $("#uploadForm").trigger("reset");

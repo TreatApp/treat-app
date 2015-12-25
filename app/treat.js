@@ -50,6 +50,13 @@ function onDeviceReady() {
       return moment(date).format(format);
    });
 
+   Handlebars.registerHelper('blob', function(files) {
+      if(files.length > 0) {
+         return 'https://treat.blob.core.windows.net/events/' + files[0].fileName;
+      }
+      return '';
+   });
+
    new ErrorView();
    new LoadingView();
 
