@@ -6,7 +6,9 @@ module.exports = Chaplin.View.extend({
    container: '#main-region',
 
    events: {
-      'change #uploadFile': 'uploadFile'
+      'change #uploadFile': 'uploadFile',
+      'keyup input[name=slots]': 'updatePrice',
+      'keyup input[name=price]': 'updatePrice'
    },
 
    initialize: function(options) {
@@ -35,6 +37,21 @@ module.exports = Chaplin.View.extend({
 
    getData: function() {
       return this.$('#eventForm').serializeJSON();
+   },
+
+   updatePrice: function() {
+      var cut = 15;
+      var percentage = (100 - cut) / 100;
+      var slots = parseInt(this.$('input[name=slots]').val());
+      var price = parseInt(this.$('input[name=price]').val());
+      var sum = slots * price * percentage;
+
+      if(slots > 0 && price > 0) {
+         this.$('.js-price-info').text('After our deduction on 15% the total amount for this event if fully booked will be ' + sum + ' SEK.');
+      }
+      else {
+         this.$('.js-price-info').text();
+      }
    },
 
    uploadFile: function(e) {
