@@ -24,6 +24,8 @@ function onDeviceReady() {
       FastClick.attach(document.body);
    }
 
+   Auth.initialize();
+
    $.ajaxSetup({
       beforeSend: function(jqXHR) {
          this.url = Url.prefix(this.url);

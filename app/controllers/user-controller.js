@@ -1,4 +1,3 @@
-var AuthController = require('controllers/auth-controller');
 var NavController = require('controllers/nav-controller');
 var HeaderView = require('views/user/header-view');
 var UserView = require('views/user/user-view');
@@ -15,7 +14,7 @@ var PaymentMethodsCollection = require('collections/payment-methods-collection')
 var Payment = require('utils/payment');
 var Auth = require('utils/auth');
 
-module.exports = AuthController.extend({
+module.exports = Chaplin.Controller.extend({
 
    _initLayout: function(options) {
       this.nav = new NavController(options);

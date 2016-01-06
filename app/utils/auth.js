@@ -2,20 +2,34 @@ module.exports = {
 
    initialize: function() {
       if(!window.isPhone) {
-         facebookConnectPlugin.browserInit('155506791476444');
+         var auth = this;
+         window.fbAsyncInit = function() {
+            facebookConnectPlugin.browserInit('155506791476444');
+
+            if(auth.getToken()) {
+               auth.check();
+            }
+         };
+      }
+      else {
+         if(this.getToken()) {
+            this.check();
+         }
       }
    },
 
    check: function() {
       var auth = this;
+      Chaplin.mediator.publish('loading:show');
       facebookConnectPlugin.getLoginStatus(
-          function(response) {
-             if (response.status === 'connected') {
-                auth.saveToken(response.authResponse);
-             }
-             else {
-                Chaplin.utils.redirectTo({url: '/'});
-             }
+         function(response) {
+            if (response.status === 'connected') {
+               auth.saveToken(response.authResponse);
+               Chaplin.utils.redirectTo({url: '/main'});
+            }
+            else {
+               Chaplin.utils.redirectTo({url: '/'});
+            }
           },
           function(response) {
              console.log('Error', response);
@@ -26,7 +40,6 @@ module.exports = {
 
    login: function() {
       var auth = this;
-      this.initialize();
       Chaplin.mediator.publish('loading:show');
       facebookConnectPlugin.login(
           ['public_profile', 'email'],
@@ -92,11 +105,11 @@ module.exports = {
    },
 
    saveToken: function(authResponse) {
-      sessionStorage.setItem('authToken', btoa(authResponse.userID + ':' + authResponse.accessToken));
+       localStorage.setItem('authToken', btoa(authResponse.userID + ':' + authResponse.accessToken));
    },
 
    getToken: function() {
-      return sessionStorage.getItem('authToken');
+      return localStorage.getItem('authToken');
    },
 
    getUserId: function() {
