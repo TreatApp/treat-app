@@ -1,20 +1,38 @@
 <div style="background: url({{blob eventImages}}); background-size: 100%; height: 100px;"></div>
-<p class="text-muted">
+<h3 class="text-center">{{title}}</h3>
+<p class="text-center">
     {{#each categories}}
         <em>{{name}}</em>
     {{/each}}
 </p>
+<hr>
+<div class="row">
+    <div class="col-xs-4 text-center">
+        <i class="fa fa-2x fa-clock-o"></i><br>
+        <strong>{{{date start 'll'}}}</strong><br>
+        {{{date start 'LT'}}} - {{{date end 'LT'}}}
+    </div>
+    <div class="col-xs-4 text-center">
+        <i class="fa fa-2x fa-user"></i><br>
+        <strong>{{slots}} seats</strong><br>
+        {{slots}} available
+    </div>
+    <div class="col-xs-4 text-center">
+        <i class="fa fa-2x fa-money"></i><br>
+        {{price}} SEK<br>
+        (VAT incl.)
+    </div>
+</div>
+<hr>
+<div class="text-center">
+    <img src="https://graph.facebook.com/{{user.externalId}}/picture?type=square" class="img-circle" /><br>
+    Hosted by<br>
+    <a href="/user/profile/{{user.id}}">{{user.firstName}} {{user.lastName}}</a><br>
+    <div id="event-rating"></div>
+</div>
+<hr>
 <p>{{description}}</p>
-<p>
-    <img src="https://graph.facebook.com/{{user.externalId}}/picture?type=square" class="img-circle" />
-    Host: <a href="/user/profile/{{user.id}}">{{user.firstName}} {{user.lastName}}</a> &nbsp;&bull;&nbsp;
-    Seats: {{slots}} &nbsp;&bull;&nbsp;
-    Price: {{price}} SEK
-</p>
-
-<h2>Rating</h2>
-<div id="event-rating"></div>
-
+<hr>
 {{#if view.canRequest }}
     <br><br>
     <form>
