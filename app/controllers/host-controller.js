@@ -1,13 +1,15 @@
 var NavController = require('controllers/nav-controller');
 var HeaderView = require('views/host/header-view');
-var HostView = require('views/host/host-view');
+var EventsView = require('views/host/events-view');
 var CreateView = require('views/host/create-view');
 var EventModel = require('models/event-model');
+var UserEventsCollection = require('collections/user-events-collection');
 var CategoriesCollection = require('collections/categories-collection');
 
 module.exports = Chaplin.Controller.extend({
    show: function (params, options) {
       this.model = new EventModel();
+      this.collection = new UserEventsCollection();
 
       this.nav = new NavController(options);
 
@@ -16,7 +18,12 @@ module.exports = Chaplin.Controller.extend({
          model: this.model
       });
 
-      this.showHost();
+      this.view = new EventsView({
+         model: this.model,
+         collection: this.collection
+      });
+
+      this.collection.fetch();
    },
 
    create: function(params, options) {
@@ -33,12 +40,6 @@ module.exports = Chaplin.Controller.extend({
 
       this.categories.fetch({
          success: _.bind(this.showCreate, this)
-      });
-   },
-
-   showHost: function() {
-      this.view = new HostView({
-         model: this.model
       });
    },
 
@@ -62,7 +63,6 @@ module.exports = Chaplin.Controller.extend({
    },
 
    success: function() {
-      alert("Ditt evenemang har skapats!");
       Chaplin.utils.redirectTo({ url: '/host' });
    }
 });

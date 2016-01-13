@@ -1,12 +1,9 @@
-var CategoriesView = require('views/host/categories-view');
-
 module.exports = Chaplin.View.extend({
-   noWrap: false,
+   noWrap: true,
    autoRender: true,
-   container: '#main-region',
 
-   initialize: function(options) {
-      this.template = require('views/host/host');
+   initialize: function() {
+      this.template = require('views/host/event-item');
       Chaplin.View.prototype.initialize.call(this, arguments);
    },
 
