@@ -4,7 +4,7 @@
     <description>
     Treat App
   </description>
-    <author email="victor@thisistreat.com" href="http://thisistreat.com">
+    <author email="info@thisistreat.com" href="http://thisistreat.com">
     Victor Stodell
   </author>
     <content src="index.html" />
@@ -68,10 +68,10 @@
     <preference name="SplashScreenDelay" value="10000" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="false" />
-    <preference name="StatusBarBackgroundColor" value="#31b0d5" />
+    <preference name="StatusBarBackgroundColor" value="#ffffff" />
     <preference name="StatusBarStyle" value="darkcontent" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="KeyboardShrinksView" value="true" />
+    <preference name="KeyboardShrinksView" value="false" />
     <preference name="HideKeyboardFormAccessoryBar" value="true" />
     <preference name="BackupWebStorage" value="local" />
     <preference name="Orientation" value="portrait" />
