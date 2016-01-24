@@ -16,7 +16,7 @@ module.exports = Chaplin.View.extend({
          radius: 6,
          corners: 1,
          direction: 1,
-         color: '#fff'
+         color: '#999'
       });
 
       this.subscribeEvent('loading:show', _.bind(this.show, this));
