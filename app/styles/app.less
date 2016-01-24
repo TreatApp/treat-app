@@ -4,13 +4,22 @@
 @body-bg: #f5f5f5;
 @text-color: @gray;
 @text-muted: @gray-light;
+@gray-lighter: #ddd;
 
 @brand-primary: #f67280;
 
 @navbar-default-bg: #fff;
-@navbar-inverse-bg: #f8b195;
+@navbar-default-link-color: @link-color;
+@navbar-default-link-hover-color: @link-hover-color;
+@navbar-default-border: @gray-lighter;
+
+@navbar-inverse-bg: transparent;
+@navbar-inverse-link-bg: #f8b195;
+@navbar-inverse-link-hover-bg: @navbar-inverse-link-bg;
 @navbar-inverse-link-active-bg: #f67280;
 @navbar-inverse-link-color: #fff;
+@navbar-inverse-border: transparent;
+@navbar-inverse-border-active: #c06c84;
 
 @panel-border-radius: 0;
 @panel-footer-bg: #fff;
@@ -77,9 +86,20 @@ body.login {
   background-position: center;
   background-size: 40px;
 }
+.navbar-fixed-bottom.navbar-inverse {
+  border: 0;
+  li {
+    > a {
+      background: @navbar-inverse-link-bg;
+    }
+    border-top: 4px solid @navbar-inverse-border;
+    &.active {
+      border-color: @navbar-inverse-border-active;
+    }
+  }
+}
 .navbar, .navbar-fixed-top, .navbar-fixed-bottom {
   text-align: center;
-  border: 0 !important;
 }
 .navbar-collapse.collapse {
   display: block !important;
@@ -112,6 +132,7 @@ body.login {
 }
 .text-white {
   color: #fff;
+  text-shadow: 2px 2px 4px #000;
 }
 .rating-filled {
   color: @brand-warning;
