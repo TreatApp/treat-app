@@ -31,14 +31,10 @@ module.exports = Chaplin.View.extend({
 
       var ratingView = new RatingView({
          model: this.model,
-         container: this.$('#event-rating')
+         container: this.$('#event-rating'),
+         rating: this.model.get('user').rating
       });
       this.subview('rating', ratingView);
-      this.listenTo(ratingView, 'saveRating', _.bind(this.saveRating, this));
-   },
-
-   saveRating: function(data) {
-      this.trigger('saveEventRating', data);
    },
 
    saveRequest: function(e) {

@@ -4,8 +4,13 @@ module.exports = Chaplin.CollectionView.extend({
    noWrap: true,
    autoRender: true,
    itemView: UserItemView,
+   listSelector: '.list-group',
    container: '#main-region',
    animationDuration: 0,
+
+   events: {
+      'click .js-logout': 'logout'
+   },
 
    initialize: function () {
       this.template = require('./user');
@@ -18,5 +23,10 @@ module.exports = Chaplin.CollectionView.extend({
 
    getTemplateData: function () {
       return this.model.attributes;
+   },
+
+   logout: function(e) {
+      e.preventDefault();
+      this.trigger('logout');
    }
 });

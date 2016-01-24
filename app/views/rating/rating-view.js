@@ -5,12 +5,18 @@ module.exports = Chaplin.View.extend({
    events: {
       'click a': 'saveRating',
       'mouseover a': 'hoverRating',
-      'mouseout': 'cancelHover'
+      'mouseout a': 'cancelHover'
    },
 
-   initialize: function() {
-      this.template = require('views/rating/rating');
+   initialize: function(options) {
+      this.rating = parseInt(options.rating);
+      this.template = options.setRating ? require('views/rating/set-rating') : require('views/rating/view-rating');
       Chaplin.View.prototype.initialize.call(this, arguments);
+   },
+
+   render: function() {
+      Chaplin.View.prototype.render.call(this, arguments);
+      this.fillRating(this.rating);
    },
 
    getTemplateFunction: function() {
@@ -23,15 +29,17 @@ module.exports = Chaplin.View.extend({
 
    hoverRating: function(e) {
       var rating = $(e.currentTarget).data('rating');
-      this.$('a').each(function() {
-         var filled = parseInt($(this).data('rating')) <= rating;
-         $(this).children('i').toggleClass('rating-empty', !filled).toggleClass('rating-filled', filled);
-      });
+      this.fillRating(parseInt(rating));
    },
 
    cancelHover: function(e) {
-      this.$('a').each(function() {
-         $(this).children('i').toggleClass('rating-empty', true).toggleClass('rating-filled', false);
+      this.fillRating(this.rating);
+   },
+
+   fillRating: function(rating) {
+      this.$('a, span').each(function() {
+         var filled = parseInt($(this).data('rating')) <= rating;
+         $(this).children('i').toggleClass('rating-empty', !filled).toggleClass('rating-filled', filled);
       });
    },
 

@@ -1,11 +1,9 @@
+var RatingView = require('views/rating/rating-view');
+
 module.exports = Chaplin.View.extend({
    noWrap: true,
    autoRender: true,
    container: '#main-region',
-
-   events: {
-      'click .js-logout': 'logout'
-   },
 
    initialize: function() {
       this.template = require('./profile');
@@ -20,8 +18,14 @@ module.exports = Chaplin.View.extend({
       return this.model.attributes;
    },
 
-   logout: function(e) {
-      e.preventDefault();
-      this.trigger('logout');
+   render: function() {
+      Chaplin.View.prototype.render.call(this, arguments);
+
+      var ratingView = new RatingView({
+         model: this.model,
+         container: this.$('#user-rating'),
+         rating: this.model.get('rating')
+      });
+      this.subview('rating', ratingView);
    }
 });

@@ -27,7 +27,8 @@ module.exports = Chaplin.View.extend({
 
       var ratingView = new RatingView({
          model: this.model,
-         container: this.$('.user-rating')
+         container: this.$('.user-rating'),
+         setRating: true
       });
       this.subview('rating', ratingView);
       this.listenTo(ratingView, 'saveRating', _.bind(this.saveRating, this));
