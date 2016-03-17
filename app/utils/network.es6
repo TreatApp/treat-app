@@ -1,6 +1,6 @@
 export function prefixUrl(url) {
    if(url.indexOf('/') === 0) {
-      return 'http://treat.cloudapp.net/api/' + url;
+      return 'http://treat.cloudapp.net/api' + url;
    }
    return url;
 }
