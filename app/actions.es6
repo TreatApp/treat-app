@@ -135,7 +135,7 @@ function serverLogin(data) {
          .then(checkStatus)
          .then(res => {
             dispatch(authenticated(true));
-            dispatch(resetNetwork())
+            dispatch(resetNetwork());
          })
          .catch(error => {
             logError(error);

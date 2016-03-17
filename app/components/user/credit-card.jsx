@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class Error extends Component {
+export default class CreditCard extends Component {
 
    constructor(props) {
       super(props);
@@ -15,10 +15,12 @@ export default class Error extends Component {
 
    render() {
       return (
-         <div className="error">Ett fel uppstod</div>
+         <div>
+            CreditCard
+         </div>
       );
    }
 }
 
-Error.propTypes = {
+CreditCard.propTypes = {
 };

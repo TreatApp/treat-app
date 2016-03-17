@@ -1,3 +1,5 @@
+import { getToken } from './auth';
+
 export function prefixUrl(url) {
    if(url.indexOf('/') === 0) {
       return 'http://treat.cloudapp.net/api' + url;
@@ -62,6 +64,7 @@ function encodeFormData(obj) {
 function withDefaultParams(method, body, accept, contentType) {
    return Object.assign({
       headers: {
+         'Authorization': 'Basic ' + getToken(),
          'Accept': accept,
          'Content-Type': contentType
       },
