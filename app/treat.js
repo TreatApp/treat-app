@@ -1,71 +1,29 @@
-var Application = require('application');
-var Auth = require('utils/auth');
-var Url = require('utils/url');
-var ErrorView = require('views/error-view');
-var LoadingView = require('views/loading-view');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, Route, Link, browserHistory } from 'react-router'
+import configureStore from './configure-store';
+import Root from './components/root';
+import Guest from './components/guest';
+import Host from './components/host';
+import User from './components/user';
 
-$(function () {
-   window.isPhone = false;
+const store = configureStore();
 
-   if (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
-      window.isPhone = true;
-   }
+document.addEventListener('DOMContentLoaded', () => {
 
-   if (window.isPhone) {
-      document.addEventListener("deviceready", onDeviceReady, false);
-   }
-   else {
-      onDeviceReady();
-   }
-});
+   window.isPhone = (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1);
 
-function onDeviceReady() {
-   if(window.isPhone) {
-      FastClick.attach(document.body);
-   }
-
-   Auth.initialize();
-
-   $.ajaxSetup({
-      beforeSend: function(jqXHR) {
-         this.url = Url.prefix(this.url);
-
-         if(Auth.getToken()) {
-            jqXHR.setRequestHeader('Authorization', 'Basic ' + Auth.getToken());
-         }
-      }
-   });
-
-   $(document).ajaxStart(function() {
-      Chaplin.mediator.publish('loading:show');
-   });
-
-   $(document).ajaxStop(function() {
-      Chaplin.mediator.publish('loading:hide');
-   });
-
-   $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
-      Chaplin.mediator.publish('error:show', 'Nätverksanropet misslyckades (' + jqXHR.status  + ')');
-   });
-
-   Handlebars.registerHelper('date', function(date, format) {
-      return moment(date).format(format);
-   });
-
-   Handlebars.registerHelper('blob', function(files) {
-      if(files.length > 0) {
-         return 'https://treat.blob.core.windows.net/events/' + files[0].fileName;
-      }
-      return '';
-   });
-
-   new ErrorView();
-   new LoadingView();
-
-   new Application({
-         title: 'Treat',
-         controllerSuffix: '-controller',
-         routes: require('routes')
-      }
+   ReactDOM.render(
+       <Provider store={store}>
+           <Router history={browserHistory}>
+               <Route path="/" component={Root}>
+                   <Route path="/host" component={Host} />
+                   <Route path="/user" component={User} />
+                   <Route path="*" component={Guest} />
+               </Route>
+           </Router>
+       </Provider>,
+       document.getElementById('treat-root')
    );
-}
+});
