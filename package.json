@@ -3,6 +3,8 @@
   "name": "treat-app",
   "description": "Treat",
   "version": "1.0.0",
+  "license": "Unlicensed",
+  "private": true,
   "homepage": "http://thisistreat.com",
   "repository": {
     "type": "git",
@@ -19,6 +21,7 @@
     "moment": "^2.10.6",
     "react": "~0.14.7",
     "react-dom": "~0.14.7",
+    "react-google-maps": "^4.9.1",
     "react-redux": "~4.3.0",
     "react-router": "^2.0.1",
     "redux": "~3.2.1",
