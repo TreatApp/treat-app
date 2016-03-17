@@ -11,13 +11,27 @@ class Event extends Component {
 
    makeInitialState(props) {
       return {
+         eventId: props.params.id
       };
    }
 
    render() {
+      let eventId = this.state.eventId;
+      let { eventsState, myEventsState } = this.props;
+      let { events } = eventsState.merge(myEventsState).toJS();
+
+      let event = events.find(e => {
+         return e.eventId = eventId;
+      });
+
+      if(!event) {
+         return <div>Event not found</div>;
+      }
+
+      let { title } = event;
       return (
          <div>
-            Event
+            <h1>{title}</h1>
          </div>
       );
    }
@@ -25,14 +39,18 @@ class Event extends Component {
 
 Event.propTypes = {
    dispatch: PropTypes.func.isRequired,
-   appState: PropTypes.object.isRequired
+   appState: PropTypes.object.isRequired,
+   eventsState: PropTypes.object.isRequired,
+   myEventsState: PropTypes.object.isRequired
 };
 
 function propProvider(reduxState, props) {
-   const {appState} = reduxState;
+   const {appState, eventsState, myEventsState} = reduxState;
 
    return {
-      appState
+      appState,
+      eventsState,
+      myEventsState
    };
 }
 

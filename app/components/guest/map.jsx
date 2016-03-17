@@ -53,4 +53,5 @@ export default class Map extends Component {
 }
 
 Map.propTypes = {
+   events: PropTypes.array.isRequired
 };

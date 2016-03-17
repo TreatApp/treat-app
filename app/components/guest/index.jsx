@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Map from './map';
 import List from './list';
+import Event from './event';
+import { getEvents } from './actions';
 
 class Guest extends Component {
 
@@ -17,10 +19,16 @@ class Guest extends Component {
       };
    }
 
+   componentWillMount() {
+      const {dispatch} = this.props;
+      dispatch(getEvents());
+   }
+
    render() {
-      const showMap = this.state.viewMode === Guest.viewMode.map;
-      const listClass = showMap ? 'btn btn-default' : 'btn btn-primary';
-      const mapClass = showMap ? 'btn btn-primary' : 'btn btn-default';
+      let showMap = this.state.viewMode === Guest.viewMode.map;
+      let listClass = showMap ? 'btn btn-default' : 'btn btn-primary';
+      let mapClass = showMap ? 'btn btn-primary' : 'btn btn-default';
+      let { events } = this.props.eventsState.toJS();
 
       return (
          <div>
@@ -28,7 +36,7 @@ class Guest extends Component {
                <button type="button" className={listClass} onClick={this.showList}>List</button>
                <button type="button" className={mapClass} onClick={this.showMap}>Map</button>
             </div>
-            {showMap ? <Map /> : <List />}
+            {showMap ? <Map events={events} /> : <List events={events} />}
          </div>
       );
    }
@@ -48,14 +56,16 @@ Guest.viewMode = { list: 0, map: 1 };
 
 Guest.propTypes = {
    dispatch: PropTypes.func.isRequired,
-   appState: PropTypes.object.isRequired
+   appState: PropTypes.object.isRequired,
+   eventsState: PropTypes.object.isRequired
 };
 
 function propProvider(reduxState, props) {
-   const {appState} = reduxState;
+   const {appState, eventsState} = reduxState;
 
    return {
-      appState
+      appState,
+      eventsState
    };
 }
 

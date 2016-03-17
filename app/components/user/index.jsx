@@ -23,8 +23,6 @@ class User extends Component {
       let { userState } = this.props;
       let { profile } = userState.toJS();
 
-      console.log('rnder wth', profile);
-
       switch(this.state.viewMode) {
          case User.viewMode.profile:
             return <Profile dispatch={this.props.dispatch} profile={profile} />;

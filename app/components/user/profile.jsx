@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { getProfile } from './actions';
+import { image } from '../../utils/url';
 
 export default class Profile extends Component {
 
@@ -21,8 +22,9 @@ export default class Profile extends Component {
 
    render() {
       let { externalId, firstName, lastName, email, description, created } = this.props.profile;
-      let imageUrl = 'https://graph.facebook.com/' + externalId + '/picture?type=normal';
+      let imageUrl = image(externalId);
       let fullName = firstName + ' ' + lastName;
+      let date = moment(created).format('lll');
 
       return (
          <div>
@@ -36,7 +38,7 @@ export default class Profile extends Component {
             <hr />
             <p>{description}</p>
             <hr />
-            <em className="small">Member since {created}</em>
+            <em className="small">Member since {date}</em>
          </div>
       );
    }

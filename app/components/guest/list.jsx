@@ -14,13 +14,18 @@ export default class List extends Component {
    }
 
    render() {
+      let { events } = this.props;
+
       return (
          <div>
-            List
+            {events.map(event => {
+               return <Event key={event.id} event={event} />;
+            })}
          </div>
       );
    }
 }
 
 List.propTypes = {
+   events: PropTypes.array.isRequired
 };

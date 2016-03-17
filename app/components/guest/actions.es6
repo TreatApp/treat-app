@@ -2,25 +2,25 @@ import 'whatwg-fetch';
 import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
 import { networkFailed, resetNetwork } from '../../actions';
 
-export const GET_PROFILE = 'GET_PROFILE';
+export const GET_EVENTS = 'GET_EVENTS';
 
-function getProfileSuccess(json) {
+function getEventsSuccess(json) {
    return {
-      type: GET_PROFILE,
+      type: GET_EVENTS,
       state: {
-         profile: json
+         events: json
       }
    };
 }
 
-export function getProfile() {
-   const url = prefixUrl('/user');
+export function getEvents() {
+   const url = prefixUrl('/events');
    return dispatch => {
       return fetch(url, fetchGet())
          .then(checkStatus)
          .then(res => res.json())
          .then(json => {
-            dispatch(getProfileSuccess(json));
+            dispatch(getEventsSuccess(json));
             dispatch(resetNetwork());
          })
          .catch(error => {

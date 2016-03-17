@@ -7,6 +7,7 @@ import Root from './components/root';
 import Guest from './components/guest';
 import Host from './components/host';
 import User from './components/user';
+import Event from './components/event';
 
 const store = configureStore();
 
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    <Route path="/host" component={Host} />
                    <Route path="/user" component={User} />
                    <Route path="/guest" component={Guest} />
+                   <Route path="/event/:id" component={Event} />
                </Route>
            </Router>
        </Provider>,
