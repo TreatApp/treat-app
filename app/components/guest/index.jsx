@@ -32,9 +32,9 @@ class Guest extends Component {
 
       return (
          <div>
-            <div className="btn-group">
-               <button type="button" className={listClass} onClick={this.showList}>List</button>
-               <button type="button" className={mapClass} onClick={this.showMap}>Map</button>
+            <div className="btn-group btn-group-justified btn-group-sm">
+               <a href="#" className={listClass} onClick={this.showList}>List</a>
+               <a href="#" className={mapClass} onClick={this.showMap}>Map</a>
             </div>
             {showMap ? <Map events={events} /> : <List events={events} />}
          </div>
@@ -42,11 +42,13 @@ class Guest extends Component {
    }
 
    showList = ev => {
+      ev.preventDefault();
       this.setState({ viewMode: Guest.viewMode.list });
       ev.target.blur();
    };
 
    showMap = ev => {
+      ev.preventDefault();
       this.setState({ viewMode: Guest.viewMode.map });
       ev.target.blur();
    };
