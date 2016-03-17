@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, IndexRedirect, browserHistory } from 'react-router'
 import configureStore from './configure-store';
 import Root from './components/root';
 import Guest from './components/guest';
@@ -18,9 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
        <Provider store={store}>
            <Router history={browserHistory}>
                <Route path="/" component={Root}>
+                   <IndexRedirect to="/guest" />
                    <Route path="/host" component={Host} />
                    <Route path="/user" component={User} />
-                   <Route path="*" component={Guest} />
+                   <Route path="/guest" component={Guest} />
                </Route>
            </Router>
        </Provider>,

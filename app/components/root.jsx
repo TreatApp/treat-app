@@ -17,7 +17,7 @@ class Root extends Component {
    onLogin = ev => {
       const {dispatch} = this.props;
       dispatch(authenticate());
-   }
+   };
 
    render() {
 
