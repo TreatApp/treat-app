@@ -20,27 +20,26 @@ class Root extends Component {
    };
 
    render() {
-
       const { appState } = this.props;
-      const { authenticated, networkProgress, networkFailed } = appState.toJS();
+      const { authenticated, showNavigation, networkProgress, networkFailed } = appState.toJS();
 
       return (
          <div>
             {networkProgress ? <Progress /> : null}
             {networkFailed ? <Error /> : null}
-            {authenticated ? this.renderContent() : <Login onLogin={this.onLogin} />}
+            {authenticated ? this.renderContent(showNavigation) : <Login onLogin={this.onLogin} />}
          </div>
       );
    }
 
-   renderContent() {
+   renderContent(showNavigation) {
       return (
          <div>
             <Head />
             <div className="container">
                {this.props.children}
             </div>
-            <Nav />
+            {showNavigation ? <Nav /> : null}
          </div>
       );
    }

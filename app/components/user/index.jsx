@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router'
+import { logout } from '../../actions';
+
 
 class User extends Component {
 
@@ -17,10 +20,21 @@ class User extends Component {
    render() {
       return (
          <div>
-            User
+            <div className="list-group">
+               <Link to="/user/profile" className="list-group-item">Profile</Link>
+               <Link to="/user/bank-account" className="list-group-item">Bank account</Link>
+               <Link to="/user/credit-card" className="list-group-item">Credit card</Link>
+            </div><br />
+            <button className="btn btn-block btn-primary js-logout" onClick={this.logout}>Log out</button>
          </div>
       );
    }
+
+   logout = ev => {
+      ev.preventDefault();
+      const {dispatch} = this.props;
+      dispatch(logout());
+   };
 }
 
 User.propTypes = {

@@ -6,7 +6,8 @@ import { NETWORK, AUTHENTICATION } from './actions';
 function appState(state = Immutable.Map({
   networkProgress: false,
   networkFailed: false,
-  authenticated: false
+  authenticated: false,
+  showNavigation: true
 }), action = null) {
   switch (action.type) {
     case NETWORK:

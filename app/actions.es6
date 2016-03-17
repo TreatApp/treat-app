@@ -67,7 +67,6 @@ export function initAuth() {
 function checkAuth() {
    return dispatch => {
       dispatch(networkProgress());
-      console.log('faceoobkkok check');
       facebookConnectPlugin.getLoginStatus(
          function (response) {
             if (response.status === 'connected') {
@@ -150,6 +149,7 @@ export function logout() {
       facebookConnectPlugin.logout(
          function (response) {
             dispatch(authenticated(false));
+            browserHistory.push('/');
          },
          function (response) {
             alert('Logout error: ' + response);
