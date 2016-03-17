@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router'
-import moment from 'moment';
-import { blob, image } from '../../utils/url';
+import { blob, imageSmall } from '../../utils/url';
+import { format } from '../../utils/date';
 
 export default class Event extends Component {
 
@@ -22,9 +22,9 @@ export default class Event extends Component {
       let { city } = location;
 
       let linkUrl = '/event/' + id;
-      let imageUrl = image(externalId);
+      let imageUrl = imageSmall(externalId);
       let backgroundUrl = 'url(' + blob(eventImages) + ')';
-      let date = moment(start).format('lll');
+      let date = format(start, 'lll');
 
       return (
          <Link to={linkUrl}>

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { getProfile } from './actions';
-import moment from 'moment';
-import { image } from '../../utils/url';
+import { imageNormal } from '../../utils/url';
+import { format } from '../../utils/date';
+import Rating from '../rating';
 
 export default class Profile extends Component {
 
@@ -22,17 +23,17 @@ export default class Profile extends Component {
    }
 
    render() {
-      let { externalId, firstName, lastName, email, description, created } = this.props.profile;
-      let imageUrl = image(externalId);
+      let { externalId, firstName, lastName, email, description, created, rating } = this.props.profile;
+      let imageUrl = imageNormal(externalId);
       let fullName = firstName + ' ' + lastName;
-      let date = moment(created).format('lll');
+      let date = format(created, 'lll');
 
       return (
          <div>
             <div className="text-center">
                <img src={imageUrl} className="img-circle" />
                <br /><br />
-               <div id="user-rating"></div>
+               <Rating rating={rating || 0} /><br />
                <h3>{fullName}</h3>
                <p>{email}</p>
             </div>

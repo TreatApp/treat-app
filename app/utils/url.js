@@ -1,7 +1,11 @@
 module.exports = {
 
-   image(externalId) {
+   imageSmall(externalId) {
       return 'https://graph.facebook.com/' + externalId + '/picture?type=square';
+   },
+
+   imageNormal(externalId) {
+      return 'https://graph.facebook.com/' + externalId + '/picture?type=normal';
    },
 
    blob(eventImages) {
