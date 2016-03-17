@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { getProfile } from './actions';
+import moment from 'moment';
 import { image } from '../../utils/url';
 
 export default class Profile extends Component {
