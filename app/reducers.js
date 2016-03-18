@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { NETWORK, AUTHENTICATION } from './actions';
 import { GET_PROFILE } from './components/user/actions';
 import { GET_EVENTS } from './components/guest/actions';
-import { GET_MY_EVENTS } from './components/host/actions';
+import { GET_USER_EVENTS } from './components/host/actions';
 
 function appState(state = Immutable.Map({
   networkProgress: false,
@@ -46,11 +46,11 @@ function eventsState(state = Immutable.Map({
   }
 }
 
-function myEventsState(state = Immutable.Map({
+function userEventsState(state = Immutable.Map({
   events: []
 }), action = null) {
   switch (action.type) {
-    case GET_MY_EVENTS:
+    case GET_USER_EVENTS:
       return state.merge(action.state);
 
     default:
@@ -62,7 +62,7 @@ const rootReducer = combineReducers({
   appState,
   userState,
   eventsState,
-  myEventsState
+  userEventsState
 });
 
 export default rootReducer;

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Event from './event';
-import { getMyEvents } from './actions';
+import { getUserEvents } from './actions';
 
 class Host extends Component {
 
@@ -18,12 +18,12 @@ class Host extends Component {
 
    componentWillMount() {
       const {dispatch} = this.props;
-      dispatch(getMyEvents());
+      dispatch(getUserEvents());
    }
 
    render() {
-      let { myEventsState } = this.props;
-      let { events } = myEventsState.toJS();
+      let { userEventsState } = this.props;
+      let { events } = userEventsState.toJS();
 
       return (
          <div>
@@ -38,15 +38,15 @@ class Host extends Component {
 Host.propTypes = {
    dispatch: PropTypes.func.isRequired,
    appState: PropTypes.object.isRequired,
-   myEventsState: PropTypes.object.isRequired
+   userEventsState: PropTypes.object.isRequired
 };
 
 function propProvider(reduxState, props) {
-   const {appState, myEventsState} = reduxState;
+   const {appState, userEventsState} = reduxState;
 
    return {
       appState,
-      myEventsState
+      userEventsState
    };
 }
 

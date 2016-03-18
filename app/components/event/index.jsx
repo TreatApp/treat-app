@@ -17,8 +17,8 @@ class Event extends Component {
 
    render() {
       let eventId = this.state.eventId;
-      let { eventsState, myEventsState } = this.props;
-      let { events } = eventsState.merge(myEventsState).toJS();
+      let { eventsState, userEventsState } = this.props;
+      let { events } = eventsState.merge(userEventsState).toJS();
 
       let event = events.find(e => {
          return e.eventId = eventId;
@@ -41,16 +41,16 @@ Event.propTypes = {
    dispatch: PropTypes.func.isRequired,
    appState: PropTypes.object.isRequired,
    eventsState: PropTypes.object.isRequired,
-   myEventsState: PropTypes.object.isRequired
+   userEventsState: PropTypes.object.isRequired
 };
 
 function propProvider(reduxState, props) {
-   const {appState, eventsState, myEventsState} = reduxState;
+   const {appState, eventsState, userEventsState} = reduxState;
 
    return {
       appState,
       eventsState,
-      myEventsState
+      userEventsState
    };
 }
 
