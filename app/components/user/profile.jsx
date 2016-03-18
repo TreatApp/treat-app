@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { getProfile } from './actions';
-import { imageNormal } from '../../utils/url';
-import { format } from '../../utils/date';
+import { getImageUrl, formatDate } from '../../utils/helpers';
 import Rating from '../rating';
 
 export default class Profile extends Component {
@@ -24,9 +23,9 @@ export default class Profile extends Component {
 
    render() {
       let { externalId, firstName, lastName, email, description, created, rating } = this.props.profile;
-      let imageUrl = imageNormal(externalId);
+      let imageUrl = getImageUrl(externalId, 'normal');
       let fullName = firstName + ' ' + lastName;
-      let date = format(created, 'lll');
+      let date = formatDate(created, 'lll');
 
       return (
          <div>

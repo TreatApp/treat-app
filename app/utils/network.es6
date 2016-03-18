@@ -1,4 +1,4 @@
-import { getToken } from './auth';
+import { getAuthToken } from './session';
 
 export function prefixUrl(url) {
    if(url.indexOf('/') === 0) {
@@ -64,7 +64,7 @@ function encodeFormData(obj) {
 function withDefaultParams(method, body, accept, contentType) {
    return Object.assign({
       headers: {
-         'Authorization': 'Basic ' + getToken(),
+         'Authorization': 'Basic ' + getAuthToken(),
          'Accept': accept,
          'Content-Type': contentType
       },

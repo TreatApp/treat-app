@@ -1,15 +1,15 @@
 module.exports = {
 
-   saveToken(authResponse) {
+   saveAuthToken(authResponse) {
        localStorage.setItem('authToken', btoa(authResponse.userID + ':' + authResponse.accessToken));
    },
 
-   getToken() {
+   getAuthToken() {
       return localStorage.getItem('authToken');
    },
 
    getUserId() {
-      return atob(this.getToken()).split(':')[0];
+      return atob(this.getAuthToken()).split(':')[0];
    }
 
 };

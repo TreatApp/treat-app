@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router'
-import { blob, imageSmall } from '../../utils/url';
-import { format } from '../../utils/date';
+import { getBlobUrl, getImageUrl, formatDate } from '../../utils/helpers';
 
 export default class Event extends Component {
 
@@ -22,9 +21,9 @@ export default class Event extends Component {
       let { city } = location;
 
       let linkUrl = '/event/' + id;
-      let imageUrl = imageSmall(externalId);
-      let backgroundUrl = 'url(' + blob(eventImages) + ')';
-      let date = format(start, 'lll');
+      let imageUrl = getImageUrl(externalId, 'square');
+      let backgroundUrl = 'url(' + getBlobUrl(eventImages) + ')';
+      let date = formatDate(start, 'lll');
 
       return (
          <Link to={linkUrl}>

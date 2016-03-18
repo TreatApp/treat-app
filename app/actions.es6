@@ -1,7 +1,7 @@
 import 'whatwg-fetch';
 import { browserHistory } from 'react-router';
 import { fetchPost, checkStatus, prefixUrl, logError} from 'utils/network';
-import {saveToken, getToken} from './utils/auth';
+import {saveAuthToken, getAuthToken} from './utils/session';
 
 export const NETWORK = 'NETWORK';
 export const AUTHENTICATION = 'AUTHENTICATION';
@@ -51,13 +51,13 @@ export function initAuth() {
          window.fbAsyncInit = function () {
             facebookConnectPlugin.browserInit('155506791476444');
 
-            if (getToken()) {
+            if (getAuthToken()) {
                dispatch(checkAuth());
             }
          };
       }
       else {
-         if (getToken()) {
+         if (getAuthToken()) {
             dispatch(checkAuth());
          }
       }
@@ -70,7 +70,7 @@ function checkAuth() {
       facebookConnectPlugin.getLoginStatus(
          function (response) {
             if (response.status === 'connected') {
-               saveToken(response.authResponse);
+               saveAuthToken(response.authResponse);
                dispatch(authenticated(true));
                dispatch(resetNetwork());
             }
@@ -93,7 +93,7 @@ export function authenticate() {
          ['public_profile', 'email'],
          function (response) {
             if (response.status === 'connected') {
-               saveToken(response.authResponse);
+               saveAuthToken(response.authResponse);
                dispatch(getInfo());
             }
             else {
