@@ -1,14 +1,24 @@
 import 'whatwg-fetch';
 import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
-import { networkFailed, resetNetwork } from '../../actions';
+import { networkProgress, networkFailed, resetNetwork } from '../../actions';
 
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
+export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_EVENT = 'ADD_EVENT';
 export const EDIT_EVENT = 'EDIT_EVENT';
 
 function getUserEventsSuccess(json) {
    return {
       type: GET_USER_EVENTS,
+      state: {
+         events: json
+      }
+   };
+}
+
+function getCategoriesSuccess(json) {
+   return {
+      type: GET_CATEGORIES,
       state: {
          events: json
       }
@@ -36,6 +46,7 @@ function saveEventSuccess(json) {
 export function getUserEvents() {
    const url = prefixUrl('/userEvents');
    return dispatch => {
+      dispatch(networkProgress());
       return fetch(url, fetchGet())
          .then(checkStatus)
          .then(res => res.json())
@@ -49,6 +60,25 @@ export function getUserEvents() {
          });
    };
 }
+
+export function getCategories() {
+   const url = prefixUrl('/categories');
+   return dispatch => {
+      dispatch(networkProgress());
+      return fetch(url, fetchGet())
+         .then(checkStatus)
+         .then(res => res.json())
+         .then(json => {
+            dispatch(getCategoriesSuccess(json));
+            dispatch(resetNetwork());
+         })
+         .catch(error => {
+            logError(error);
+            dispatch(networkFailed());
+         });
+   };
+}
+
 
 export function addEvent(event) {
    const url = prefixUrl('/events');
