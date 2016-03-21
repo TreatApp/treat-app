@@ -118,11 +118,13 @@ body {
 }
 .navbar-justified {
   float: none !important;
-  display: table;
-  width: 100%;
+  display: flex;
+  &:after, &:before {
+    display: none;
+  }
   > li {
     float: none !important;
-    display: table-cell;
+    flex: 1;
   }
 }
 .panel h3 {

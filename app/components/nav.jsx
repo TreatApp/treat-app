@@ -16,13 +16,13 @@ export default class Nav extends Component {
 
    render() {
       return (
-         <nav className="navbar navbar-inverse navbar-fixed-bottom">
+         <div className="navbar navbar-inverse navbar-fixed-bottom">
             <ul className="nav navbar-nav navbar-justified">
                <li className={this.activeClass("guest")}><Link to="/guest"><i className="fa fa-2x fa-cutlery"></i></Link></li>
                <li className={this.activeClass("host")}><Link to="/host"><i className="fa fa-2x fa-home"></i></Link></li>
                <li className={this.activeClass("user")}><Link to="/user"><i className="fa fa-2x fa-user"></i></Link></li>
             </ul>
-         </nav>
+         </div>
       );
    }
 
