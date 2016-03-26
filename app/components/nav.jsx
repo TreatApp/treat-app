@@ -26,8 +26,8 @@ export default class Nav extends Component {
       );
    }
 
-   activeClass(routeName) {
-      return this.context.router.isActive(routeName) ? 'active' : null;
+   activeClass(route) {
+      return this.context.router.isActive(route) ? 'active' : null;
    }
 }
 

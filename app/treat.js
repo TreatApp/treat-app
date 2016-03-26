@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRedirect, hashHistory } from 'react-router'
+import { Router, Route, IndexRedirect, IndexRoute, hashHistory } from 'react-router'
 import configureStore from './configure-store';
 import Root from './components/root';
 import Guest from './components/guest';
@@ -21,17 +21,19 @@ document.addEventListener(window.isPhone ? 'deviceready' : 'DOMContentLoaded', (
       <Provider store={configureStore()}>
          <Router history={hashHistory}>
             <Route path="/" component={Root}>
-               <IndexRedirect to="/guest" />
-               <Route path="/guest" component={Guest} />
-               <Route path="/host" component={Host} />
-               <Route path="/user" component={User} />
-               <Route path="/user/profile" component={Profile} />
-               <Route path="/user/edit" component={EditProfile} />
-               <Route path="/user/bank-account" component={BankAccount} />
-               <Route path="/user/credit-card" component={CreditCard} />
-               <Route path="/event/create" component={CreateEvent} />
-               <Route path="/event/:id" component={Event} />
-               <Route path="/profile/:id" component={Profile} />
+               <IndexRedirect to="guest" />
+               <Route path="guest" component={Guest} />
+               <Route path="host" component={Host} />
+               <Route path="user">
+                  <IndexRoute component={User} />
+                  <Route path="profile" component={Profile} />
+                  <Route path="edit" component={EditProfile} />
+                  <Route path="bank-account" component={BankAccount} />
+                  <Route path="credit-card" component={CreditCard} />
+               </Route>
+               <Route path="event/create" component={CreateEvent} />
+               <Route path="event/:id" component={Event} />
+               <Route path="profile/:id" component={Profile} />
             </Route>
          </Router>
       </Provider>,
