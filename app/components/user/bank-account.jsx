@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-export default class BankAccount extends Component {
+class BankAccount extends Component {
 
    constructor(props) {
       super(props);
@@ -23,4 +24,16 @@ export default class BankAccount extends Component {
 }
 
 BankAccount.propTypes = {
+   dispatch: PropTypes.func.isRequired,
+   userState: PropTypes.object.isRequired
 };
+
+function propProvider(reduxState, props) {
+   const {userState} = reduxState;
+
+   return {
+      userState
+   };
+}
+
+export default connect(propProvider)(BankAccount);

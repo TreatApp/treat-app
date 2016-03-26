@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
-export default class CreditCard extends Component {
+class CreditCard extends Component {
 
    constructor(props) {
       super(props);
@@ -23,4 +24,16 @@ export default class CreditCard extends Component {
 }
 
 CreditCard.propTypes = {
+   dispatch: PropTypes.func.isRequired,
+   userState: PropTypes.object.isRequired
 };
+
+function propProvider(reduxState, props) {
+   const {userState} = reduxState;
+
+   return {
+      userState
+   };
+}
+
+export default connect(propProvider)(CreditCard);

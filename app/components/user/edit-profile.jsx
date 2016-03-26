@@ -4,7 +4,7 @@ import { getProfile } from './actions';
 import { getImageUrl, formatDate } from '../../utils/helpers';
 import Rating from '../rating';
 
-class Profile extends Component {
+class EditProfile extends Component {
 
    constructor(props) {
       super(props);
@@ -14,19 +14,16 @@ class Profile extends Component {
 
    makeInitialState(props) {
       return {
-         userId: props.params.id
       };
    }
 
    componentWillMount() {
       const {dispatch} = this.props;
-      dispatch(getProfile(this.state.userId));
+      dispatch(getProfile());
    }
 
    render() {
-      let { userState } = this.props;
-      let { profile } = userState.toJS();
-      let { externalId, firstName, lastName, email, description, created, rating } = profile;
+      let { externalId, firstName, lastName, email, description, created, rating } = this.props.profile;
       let imageUrl = getImageUrl(externalId, 'normal');
       let fullName = firstName + ' ' + lastName;
       let date = formatDate(created, 'lll');
@@ -49,7 +46,7 @@ class Profile extends Component {
    }
 }
 
-Profile.propTypes = {
+EditProfile.propTypes = {
    dispatch: PropTypes.func.isRequired,
    userState: PropTypes.object.isRequired
 };
@@ -62,4 +59,4 @@ function propProvider(reduxState, props) {
    };
 }
 
-export default connect(propProvider)(Profile);
+export default connect(propProvider)(EditProfile);

@@ -1,10 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { getBlobUrl, getImageUrl, formatDate } from '../../utils/helpers';
 import Rating from '../rating';
 
-class Event extends Component {
+class CreateEvent extends Component {
 
    constructor(props) {
       super(props);
@@ -26,7 +25,7 @@ class Event extends Component {
       let event = events.find(e => { return e.id == eventId; });
 
       let { user, slotsAvailable, slots, location, title, categories, start, end, description, price, eventImages } = event;
-      let { id, externalId, rating, firstName, lastName } = user;
+      let { externalId, rating, firstName, lastName } = user;
 
       let imageUrl = getImageUrl(externalId, 'square');
       let backgroundUrl = 'url(' + getBlobUrl(eventImages) + ')';
@@ -62,7 +61,7 @@ class Event extends Component {
             <div>
                <img src={imageUrl} className="img-circle" /><br />
                Hosted by<br />
-               <Link to={"/profile/" + id}>{firstName} {lastName}</Link><br />
+               <a href="/user/profile/{{user.id}}">{firstName} {lastName}</a><br />
                <Rating rating={rating || 0} />
             </div>
             <hr />
@@ -75,7 +74,7 @@ class Event extends Component {
    }
 }
 
-Event.propTypes = {
+CreateEvent.propTypes = {
    dispatch: PropTypes.func.isRequired,
    appState: PropTypes.object.isRequired,
    eventsState: PropTypes.object.isRequired,
@@ -92,4 +91,4 @@ function propProvider(reduxState, props) {
    };
 }
 
-export default connect(propProvider)(Event);
+export default connect(propProvider)(CreateEvent);

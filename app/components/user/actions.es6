@@ -53,8 +53,8 @@ function addPaymentMethodSuccess(json) {
    };
 }
 
-export function getProfile() {
-   const url = prefixUrl('/user');
+export function getProfile(userId) {
+   const url = prefixUrl('/user' + (userId ? '/' + userId : ''));
    return dispatch => {
       dispatch(networkProgress());
       return fetch(url, fetchGet())
