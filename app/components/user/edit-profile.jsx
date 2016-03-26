@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getProfile } from './actions';
-import { getImageUrl, formatDate } from '../../utils/helpers';
-import Rating from '../rating';
+import { getProfile, saveProfile } from './actions';
 
 class EditProfile extends Component {
 
@@ -22,25 +20,27 @@ class EditProfile extends Component {
       dispatch(getProfile());
    }
 
+   saveProfile() {
+      const {dispatch} = this.props;
+      dispatch(saveProfile());
+   }
+
    render() {
-      let { externalId, firstName, lastName, email, description, created, rating } = this.props.profile;
-      let imageUrl = getImageUrl(externalId, 'normal');
-      let fullName = firstName + ' ' + lastName;
-      let date = formatDate(created, 'lll');
+      let { userState } = this.props;
+      let { profile } = userState.toJS();
+      let { externalId, firstName, lastName, email, description, created, rating } = profile;
 
       return (
          <div>
-            <div className="text-center">
-               <img src={imageUrl} className="img-circle" />
-               <br /><br />
-               <Rating rating={rating || 0} /><br />
-               <h3>{fullName}</h3>
-               <p>{email}</p>
-            </div>
-            <hr />
-            <p>{description}</p>
-            <hr />
-            <em className="small">Member since {date}</em>
+            <h3>{firstName} {lastName}</h3>
+            <form onSubmit={this.saveProfile}>
+               <div className="form-group">
+                  <input type="email" name="email" className="form-control" value={email} placeholder="E-mail" />
+               </div>
+               <div className="form-group">
+                  <textarea name="description" className="form-control" rows="4" placeholder="Description" value={description}></textarea>
+               </div>
+            </form>
          </div>
       );
    }

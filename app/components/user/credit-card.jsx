@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 class CreditCard extends Component {
 
@@ -16,8 +17,11 @@ class CreditCard extends Component {
 
    render() {
       return (
-         <div>
-            CreditCard
+         <div className="list-group">
+            <Link to="/user/credit-card/edit" className="list-group-item">
+               <strong>VISA</strong><br />
+               <span>**** **** **** 1234</span>
+            </Link>
          </div>
       );
    }

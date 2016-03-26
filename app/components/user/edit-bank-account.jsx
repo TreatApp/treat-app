@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
-class BankAccount extends Component {
+class EditBankAccount extends Component {
 
    constructor(props) {
       super(props);
@@ -17,17 +16,19 @@ class BankAccount extends Component {
 
    render() {
       return (
-         <div className="list-group">
-            <Link to="/user/bank-account/edit" className="list-group-item">
-               <strong>Test Bank</strong><br />
-               <span>1234-5 123 456 789</span>
-            </Link>
-         </div>
+         <form>
+            <div className="form-group">
+               <input type="text" name="name" className="form-control" placeholder="Bank name" />
+            </div>
+            <div className="form-group">
+               <input type="text" name="number" className="form-control" placeholder="Account number" />
+            </div>
+         </form>
       );
    }
 }
 
-BankAccount.propTypes = {
+EditBankAccount.propTypes = {
    dispatch: PropTypes.func.isRequired,
    userState: PropTypes.object.isRequired
 };
@@ -40,4 +41,4 @@ function propProvider(reduxState, props) {
    };
 }
 
-export default connect(propProvider)(BankAccount);
+export default connect(propProvider)(EditBankAccount);

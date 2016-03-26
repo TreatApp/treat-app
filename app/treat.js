@@ -10,7 +10,9 @@ import User from './components/user';
 import Profile from './components/user/profile';
 import EditProfile from './components/user/edit-profile';
 import BankAccount from './components/user/bank-account';
+import EditBankAccount from './components/user/edit-bank-account';
 import CreditCard from './components/user/credit-card';
+import EditCreditCard from './components/user/edit-credit-card';
 import Event from './components/event';
 import CreateEvent from './components/create-event';
 
@@ -26,10 +28,18 @@ document.addEventListener(window.isPhone ? 'deviceready' : 'DOMContentLoaded', (
                <Route path="host" component={Host} />
                <Route path="user">
                   <IndexRoute component={User} />
-                  <Route path="profile" component={Profile} />
-                  <Route path="edit" component={EditProfile} />
-                  <Route path="bank-account" component={BankAccount} />
-                  <Route path="credit-card" component={CreditCard} />
+                  <Route path="profile">
+                     <IndexRoute component={Profile} />
+                     <Route path="edit" component={EditProfile} />
+                  </Route>
+                  <Route path="bank-account">
+                     <IndexRoute component={BankAccount} />
+                     <Route path="edit" component={EditBankAccount} />
+                  </Route>
+                  <Route path="credit-card">
+                     <IndexRoute component={CreditCard} />
+                     <Route path="edit" component={EditCreditCard} />
+                  </Route>
                </Route>
                <Route path="event/create" component={CreateEvent} />
                <Route path="event/:id" component={Event} />

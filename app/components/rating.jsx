@@ -14,6 +14,8 @@ export default class Rating extends Component {
       };
    }
 
+
+
    render() {
       return this.props.onSelected ? this.renderEdit() : this.renderReadOnly();
    }
@@ -43,7 +45,8 @@ export default class Rating extends Component {
    }
 
    getClassName(star) {
-      return star <= this.state.rating ? 'fa fa-lg fa-star rating-filled' : 'fa fa-lg fa-star rating-empty';
+      let rating = this.state.rating || this.props.rating;
+      return star <= rating ? 'fa fa-lg fa-star rating-filled' : 'fa fa-lg fa-star rating-empty';
    }
 
    mouseOver(rating) {
