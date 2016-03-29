@@ -1,10 +1,12 @@
-import { getJson, postJson, checkStatus, logError} from '../../utils/network';
+import { getJson, putJson, postJson, postFile, checkStatus, logError} from '../../utils/network';
 import { networkProgress, networkFailed, resetNetwork } from '../../actions';
 
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_EVENT = 'ADD_EVENT';
 export const EDIT_EVENT = 'EDIT_EVENT';
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE';
+export const UPLOAD_PROGRESS = 'UPLOAD_PROGRESS';
 
 function getUserEventsSuccess(data) {
    return {
@@ -20,6 +22,24 @@ function getCategoriesSuccess(data) {
       type: GET_CATEGORIES,
       state: {
          events: data
+      }
+   };
+}
+
+function uploadImageProgress(data) {
+   return {
+      type: UPLOAD_PROGRESS,
+      state: {
+         progress: data
+      }
+   };
+}
+
+function uploadImageSuccess(data) {
+   return {
+      type: UPLOAD_IMAGE,
+      state: {
+         image: data
       }
    };
 }
@@ -74,6 +94,25 @@ export function getCategories() {
    };
 }
 
+export function uploadImage(file) {
+   return dispatch => {
+      dispatch(networkProgress());
+      dispatch(uploadImageProgress(0));
+      return postFile('/eventImage', file, function(progressEvent) {
+            var percentCompleted = progressEvent.loaded / progressEvent.total;
+            dispatch(uploadImageProgress(percentCompleted));
+         })
+         .then(checkStatus)
+         .then(response => {
+            dispatch(uploadImageSuccess(response.data));
+            dispatch(resetNetwork());
+         })
+         .catch(error => {
+            logError(error);
+            dispatch(networkFailed());
+         });
+   };
+}
 
 export function addEvent(event) {
    return dispatch => {

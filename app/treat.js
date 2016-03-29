@@ -20,7 +20,7 @@ import CreditCard from './components/user/credit-card';
 import EditCreditCard from './components/user/edit-credit-card';
 
 import Event from './components/event';
-import CreateEvent from './components/create-event';
+import CreateEvent from './components/host/create-event';
 
 window.isPhone = (window.location.protocol === 'file:');
 

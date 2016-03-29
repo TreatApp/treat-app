@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import { NETWORK, AUTHENTICATION } from './actions';
 import { GET_PROFILE } from './components/user/actions';
 import { GET_EVENTS } from './components/guest/actions';
-import { GET_USER_EVENTS } from './components/host/actions';
+import { UPLOAD_IMAGE, UPLOAD_PROGRESS, GET_USER_EVENTS } from './components/host/actions';
 
 function appState(state = Immutable.Map({
   networkProgress: false,
@@ -57,11 +57,30 @@ function userEventsState(state = Immutable.Map({
   }
 }
 
+function createEventState(state = Immutable.Map({
+  progress: 0,
+  images: []
+}), action = null) {
+  switch (action.type) {
+    case UPLOAD_IMAGE:
+      let { images } = state.toJS();
+      images.push(action.state.image);
+      return state.merge({ progress: 0, images: images });
+
+    case UPLOAD_PROGRESS:
+      return state.merge(action.state);
+
+    default:
+      return state;
+  }
+}
+
 const rootReducer = combineReducers({
   appState,
   userState,
   eventsState,
-  userEventsState
+  userEventsState,
+  createEventState
 });
 
 export default rootReducer;

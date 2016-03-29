@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { uploadImage } from './actions';
 import { getBlobUrl } from '../../utils/helpers';
-import { postFile } from '../../utils/network';
 
 class CreateEvent extends Component {
 
@@ -14,15 +14,13 @@ class CreateEvent extends Component {
    makeInitialState(props) {
       return {
          slots: 0,
-         price: 0,
-         progress: 0,
-         images: []
+         price: 0
       };
    }
 
    render() {
-      let { eventsState } = this.props;
-      let { images } = this.state;
+      let { createEventState } = this.props;
+      let { images, progress } = createEventState.toJS();
 
       return (
          <div>
@@ -63,20 +61,17 @@ class CreateEvent extends Component {
                <br />
                {this.renderPriceInformation()}
             </form>
-            <hr /><br />
-            <form>
-               <button onClick={this.selectFile} className="btn btn-default btn-block">Upload image</button>
-               <input type="file" onChange={this.uploadFile} style={{display: 'none'}} ref={o => this.fileInput = o} />
-               {this.renderProgressBar()}
-               {images.map((image, index) => {
-                  return (
-                     <div className="img-thumbnail" key={'div' + index}>
-                        <input type="hidden" name="eventImages[][fileName]" value={image} key={'input' + index} />
-                        <img src={getBlobUrl(image)} style={{width: 100, height: 100}} key={'img' + index} />
-                     </div>
-                  );
-               })}
-            </form>
+            <br />
+            {this.renderUploadControl(progress)}
+            {images.map((image, index) => {
+               let fileName = image.fileName;
+               return (
+                  <div className="img-thumbnail" key={'div' + index}>
+                     <input type="hidden" name="eventImages[][fileName]" value={fileName} key={'input' + index} />
+                     <img src={getBlobUrl(fileName)} style={{width: 100, height: 100}} key={'img' + index} />
+                  </div>
+               );
+            })}
          </div>
       );
    }
@@ -98,14 +93,17 @@ class CreateEvent extends Component {
       return sum > 0 ? <p className="text-center">After our deduction on 15% the total amount for this event if fully booked will be {sum} SEK.</p> : null;
    }
 
-   renderProgressBar() {
-      let { progress } = this.state;
-
+   renderUploadControl(progress) {
       return progress > 0 ? (
          <div className="progress progress-striped active">
-            <div className="progress-bar progress-bar-info" style={{width: {progress} + '%'}}></div>
+            <div className="progress-bar progress-bar-info" style={{width: progress + '%'}}></div>
          </div>
-      ) : null;
+      ) : (
+         <form>
+            <input type="file" onChange={this.uploadFile} style={{display: 'none'}} ref={o => this.fileInput = o} />
+            <button onClick={this.selectFile} className="btn btn-default btn-block">Upload image</button>
+         </form>
+      );
    }
 
    selectFile = ev => {
@@ -119,38 +117,22 @@ class CreateEvent extends Component {
 
       let fileName = ev.target.files[0];
       ev.target.form.reset();
-      this.setState({ progress: 50 });
 
-      postFile('/eventImage', fileName, this.onProgress)
-         .then(res => res.json())
-         .then(data => this.fileUploaded(data));
+      let { dispatch } = this.props;
+      dispatch(uploadImage(fileName));
    };
-
-   onProgress(obj) {
-      console.log('progress', obj);
-   }
-
-   fileUploaded(data) {
-      let images = this.state.images;
-      images.push(data.fileName);
-      this.setState({ images: images, progress: 0 });
-   }
 }
 
 CreateEvent.propTypes = {
    dispatch: PropTypes.func.isRequired,
-   appState: PropTypes.object.isRequired,
-   eventsState: PropTypes.object.isRequired,
-   userEventsState: PropTypes.object.isRequired
+   createEventState: PropTypes.object.isRequired
 };
 
 function propProvider(reduxState, props) {
-   const {appState, eventsState, userEventsState} = reduxState;
+   const {createEventState} = reduxState;
 
    return {
-      appState,
-      eventsState,
-      userEventsState
+      createEventState
    };
 }
 

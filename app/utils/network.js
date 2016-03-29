@@ -34,7 +34,13 @@ export function logError(error) {
 export function postFile(url, file, progress) {
    var formData = new FormData();
    formData.append('file', file);
-   return instance.post(url, formData, { progress: progress });
+
+   return instance.post(url, formData, {
+      progress: function(progressEvent) {
+         var percentCompleted = progressEvent.loaded / progressEvent.total;
+         console.log('progress', progressEvent, percentCompleted);
+      }
+   });
 }
 
 export function getJson(url) {

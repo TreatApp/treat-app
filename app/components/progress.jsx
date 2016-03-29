@@ -16,7 +16,7 @@ export default class Error extends Component {
 
    render() {
       return (
-         <div className="progress"></div>
+         <div className="loading"></div>
       );
    }
 
@@ -31,7 +31,7 @@ export default class Error extends Component {
             direction: 1,
             color: '#999'
          });
-         this.spinner.spin(document.getElementsByClassName('progress')[0]);
+         this.spinner.spin(document.getElementsByClassName('loading')[0]);
       }
    }
 
