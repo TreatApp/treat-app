@@ -5,7 +5,6 @@ import Progress from './progress';
 import Error from './error';
 import Login from './login';
 import Head from './head';
-import Nav from './nav';
 
 class Root extends Component {
 
@@ -21,25 +20,25 @@ class Root extends Component {
 
    render() {
       const { appState } = this.props;
-      const { authenticated, showNavigation, networkProgress, networkFailed } = appState.toJS();
+      const { authenticated, networkProgress, networkFailed } = appState.toJS();
 
       return (
          <div>
             {networkProgress ? <Progress /> : null}
             {networkFailed ? <Error /> : null}
-            {authenticated ? this.renderContent(showNavigation) : <Login onLogin={this.onLogin} />}
+            {authenticated ? this.renderContent() : <Login onLogin={this.onLogin} />}
          </div>
       );
    }
 
-   renderContent(showNavigation) {
+   renderContent() {
+      let { nav, content, leftControl, rightControl } = this.props;
+
       return (
          <div>
-            <Head />
-            <div className="container">
-               {this.props.children}
-            </div>
-            {showNavigation ? <Nav /> : null}
+            <Head leftControl={leftControl} rightControl={rightControl} />
+            {content}
+            {nav}
          </div>
       );
    }

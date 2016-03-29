@@ -31,7 +31,7 @@ class CreateEvent extends Component {
       let backgroundUrl = 'url(' + getBlobUrl(eventImages) + ')';
 
       return (
-         <div className="text-center">
+         <div className="container text-center">
             <div style={{background: backgroundUrl, backgroundSize: '100%', height: 100}}></div>
             <h3>{title}</h3>
             <p>

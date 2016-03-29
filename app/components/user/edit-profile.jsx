@@ -31,7 +31,7 @@ class EditProfile extends Component {
       let { externalId, firstName, lastName, email, description, created, rating } = profile;
 
       return (
-         <div>
+         <div className="container">
             <h3>{firstName} {lastName}</h3>
             <form onSubmit={this.saveProfile}>
                <div className="form-group">

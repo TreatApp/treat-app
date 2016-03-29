@@ -19,6 +19,7 @@ class CreditCard extends Component {
       return (
          <div className="list-group">
             <Link to="/user/credit-card/edit" className="list-group-item">
+               <i className="fa fa-chevron-right navigate-two-rows"></i>
                <strong>VISA</strong><br />
                <span>**** **** **** 1234</span>
             </Link>

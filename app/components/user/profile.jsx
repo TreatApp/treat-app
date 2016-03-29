@@ -32,7 +32,7 @@ class Profile extends Component {
       let date = formatDate(created, 'lll');
 
       return (
-         <div>
+         <div className="container">
             <div className="text-center">
                <img src={imageUrl} className="img-circle" />
                <br /><br />

@@ -20,9 +20,9 @@ class User extends Component {
       return (
          <div>
             <div className="list-group">
-               <Link to="/user/profile" className="list-group-item">Profile</Link>
-               <Link to="/user/bank-account" className="list-group-item">Bank account</Link>
-               <Link to="/user/credit-card" className="list-group-item">Credit card</Link>
+               <Link to="/user/profile" className="list-group-item"><i className="fa fa-chevron-right navigate"></i>Profile</Link>
+               <Link to="/user/bank-account" className="list-group-item"><i className="fa fa-chevron-right navigate"></i>Bank account</Link>
+               <Link to="/user/credit-card" className="list-group-item"><i className="fa fa-chevron-right navigate"></i>Credit card</Link>
             </div><br />
             <button className="btn btn-block btn-primary js-logout" onClick={this.logout}>Log out</button>
          </div>

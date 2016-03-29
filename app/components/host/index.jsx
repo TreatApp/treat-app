@@ -26,7 +26,7 @@ class Host extends Component {
       let { events } = userEventsState.toJS();
 
       return (
-         <div>
+         <div className="container">
             {events.map(event => {
                return <Event key={event.id} event={event} />;
             })}

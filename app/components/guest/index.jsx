@@ -31,7 +31,7 @@ class Guest extends Component {
       let { events } = this.props.eventsState.toJS();
 
       return (
-         <div>
+         <div className="container">
             <div className="btn-group btn-group-justified btn-group-sm">
                <a href="#" className={listClass} onClick={this.showList}>List</a>
                <a href="#" className={mapClass} onClick={this.showMap}>Map</a>

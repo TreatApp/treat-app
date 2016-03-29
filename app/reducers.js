@@ -9,8 +9,7 @@ import { GET_USER_EVENTS } from './components/host/actions';
 function appState(state = Immutable.Map({
   networkProgress: false,
   networkFailed: false,
-  authenticated: false,
-  showNavigation: true
+  authenticated: false
 }), action = null) {
   switch (action.type) {
     case NETWORK:

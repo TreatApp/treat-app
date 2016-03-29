@@ -18,9 +18,11 @@ class EditBankAccount extends Component {
       return (
          <form>
             <div className="form-group">
+               <label>Bank name</label>
                <input type="text" name="name" className="form-control" placeholder="Bank name" />
             </div>
             <div className="form-group">
+               <label>Account number</label>
                <input type="text" name="number" className="form-control" placeholder="Account number" />
             </div>
          </form>
