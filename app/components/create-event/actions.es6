@@ -1,5 +1,4 @@
-import 'whatwg-fetch';
-import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
+import { getJson, putJson, postJson, checkStatus, logError} from '../../utils/network';
 import { networkProgress, networkFailed, resetNetwork } from '../../actions';
 
 export const GET_EVENT_LOGS = 'GET_EVENT_LOGS';
@@ -10,65 +9,65 @@ export const UPDATE_EVENT_REQUEST = 'UPDATE_EVENT_REQUEST';
 export const SAVE_EVENT_RATING = 'SAVE_EVENT_RATING';
 export const SAVE_USER_RATING = 'SAVE_USER_RATING';
 
-function getEventLogsSuccess(json) {
+function getEventLogsSuccess(data) {
    return {
       type: GET_EVENT_LOGS,
       state: {
-         logs: json
+         logs: data
       }
    };
 }
 
-function getEventRequestsSuccess(json) {
+function getEventRequestsSuccess(data) {
    return {
       type: GET_EVENT_REQUESTS,
       state: {
-         requests: json
+         requests: data
       }
    };
 }
 
-function addEventLogSuccess(json) {
+function addEventLogSuccess(data) {
    return {
       type: ADD_EVENT_LOG,
       state: {
-         log: json
+         log: data
       }
    };
 }
 
-function addEventRequestSuccess(json) {
+function addEventRequestSuccess(data) {
    return {
       type: ADD_EVENT_REQUEST,
       state: {
-         request: json
+         request: data
       }
    };
 }
 
-function updateEventRequestSuccess(json) {
+function updateEventRequestSuccess(data) {
    return {
       type: UPDATE_EVENT_REQUEST,
       state: {
-         request: json
+         request: data
       }
    };
 }
 
-function saveEventRatingSuccess(json) {
+function saveEventRatingSuccess(data) {
    return {
       type: SAVE_EVENT_RATING,
       state: {
-         rating: json
+         rating: data
       }
    };
 }
 
-function saveUserRatingSuccess(json) {
+function saveUserRatingSuccess(data) {
    return {
       type: SAVE_USER_RATING,
       state: {
-         rating: json
+         rating: data
       }
    };
 }
@@ -76,11 +75,10 @@ function saveUserRatingSuccess(json) {
 export function getEventLogs() {
    const url = prefixUrl('/eventLogs');
    return dispatch => {
-      return fetch(url, fetchGet())
+      return getJson(url)
          .then(checkStatus)
-         .then(res => res.json())
-         .then(json => {
-            dispatch(getEventLogsSuccess(json));
+         .then(response => {
+            dispatch(getEventLogsSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -94,10 +92,10 @@ export function getEventRequests() {
    const url = prefixUrl('/eventRequests');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchGet())
+      return getJson(url)
          .then(checkStatus)
-         .then(json => {
-            dispatch(getEventRequestsSuccess(json));
+         .then(response => {
+            dispatch(getEventRequestsSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -111,10 +109,10 @@ export function addEventLog(log) {
    const url = prefixUrl('/eventLogs');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(log))
+      return postJson(url, log)
          .then(checkStatus)
-         .then(json => {
-            dispatch(addEventLogSuccess(json));
+         .then(response => {
+            dispatch(addEventLogSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -128,10 +126,10 @@ export function addEventRequest(request) {
    const url = prefixUrl('/eventRequests');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(request))
+      return postJson(url, request)
          .then(checkStatus)
-         .then(json => {
-            dispatch(addEventRequestSuccess(json));
+         .then(response => {
+            dispatch(addEventRequestSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -145,10 +143,10 @@ export function updateEventRequest(request) {
    const url = prefixUrl('/eventRequests');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPut(request))
+      return putJson(url, request)
          .then(checkStatus)
-         .then(json => {
-            dispatch(updateEventRequestSuccess(json));
+         .then(response => {
+            dispatch(updateEventRequestSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -162,10 +160,10 @@ export function saveEventRating(rating) {
    const url = prefixUrl('/eventRatings');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(rating))
+      return putJson(url, rating)
          .then(checkStatus)
-         .then(json => {
-            dispatch(saveEventRatingSuccess(json));
+         .then(response => {
+            dispatch(saveEventRatingSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -179,10 +177,10 @@ export function saveUserRating(rating) {
    const url = prefixUrl('/userRatings');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(rating))
+      return postJson(url, rating)
          .then(checkStatus)
-         .then(json => {
-            dispatch(saveUserRatingSuccess(json));
+         .then(response => {
+            dispatch(saveUserRatingSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {

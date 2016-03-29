@@ -1,5 +1,4 @@
-import 'whatwg-fetch';
-import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
+import { getJson, postJson, checkStatus, logError} from '../../utils/network';
 import { networkProgress, networkFailed, resetNetwork } from '../../actions';
 
 export const GET_USER_EVENTS = 'GET_USER_EVENTS';
@@ -7,51 +6,49 @@ export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const ADD_EVENT = 'ADD_EVENT';
 export const EDIT_EVENT = 'EDIT_EVENT';
 
-function getUserEventsSuccess(json) {
+function getUserEventsSuccess(data) {
    return {
       type: GET_USER_EVENTS,
       state: {
-         events: json
+         events: data
       }
    };
 }
 
-function getCategoriesSuccess(json) {
+function getCategoriesSuccess(data) {
    return {
       type: GET_CATEGORIES,
       state: {
-         events: json
+         events: data
       }
    };
 }
 
-function addEventSuccess(json) {
+function addEventSuccess(data) {
    return {
       type: ADD_EVENT,
       state: {
-         event: json
+         event: data
       }
    };
 }
 
-function saveEventSuccess(json) {
+function saveEventSuccess(data) {
    return {
       type: EDIT_EVENT,
       state: {
-         event: json
+         event: data
       }
    };
 }
 
 export function getUserEvents() {
-   const url = prefixUrl('/userEvents');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchGet())
+      return getJson('/userEvents')
          .then(checkStatus)
-         .then(res => res.json())
-         .then(json => {
-            dispatch(getUserEventsSuccess(json));
+         .then(response => {
+            dispatch(getUserEventsSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -62,14 +59,12 @@ export function getUserEvents() {
 }
 
 export function getCategories() {
-   const url = prefixUrl('/categories');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchGet())
+      return getJson('/categories')
          .then(checkStatus)
-         .then(res => res.json())
-         .then(json => {
-            dispatch(getCategoriesSuccess(json));
+         .then(response => {
+            dispatch(getCategoriesSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -81,13 +76,12 @@ export function getCategories() {
 
 
 export function addEvent(event) {
-   const url = prefixUrl('/events');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(event))
+      return postJson('/events', event)
          .then(checkStatus)
-         .then(json => {
-            dispatch(addEventSuccess(json));
+         .then(response => {
+            dispatch(addEventSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -98,13 +92,12 @@ export function addEvent(event) {
 }
 
 export function saveEvent(event) {
-   const url = prefixUrl('/events');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPut(event))
+      return putJson('/events', event)
          .then(checkStatus)
-         .then(json => {
-            dispatch(saveEventSuccess(json));
+         .then(response => {
+            dispatch(saveEventSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {

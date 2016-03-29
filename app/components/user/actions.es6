@@ -1,5 +1,4 @@
-import 'whatwg-fetch';
-import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
+import { getJson, putJson, postJson, checkStatus, logError} from '../../utils/network';
 import { networkProgress, networkFailed, resetNetwork } from '../../actions';
 
 export const GET_PROFILE = 'GET_PROFILE';
@@ -8,60 +7,59 @@ export const ADD_BANK_ACCOUNT = 'ADD_BANK_ACCOUNT';
 export const EDIT_BANK_ACCOUNT = 'EDIT_BANK_ACCOUNT';
 export const ADD_PAYMENT_METHOD = 'ADD_PAYMENT_METHOD';
 
-function getProfileSuccess(json) {
+function getProfileSuccess(data) {
    return {
       type: GET_PROFILE,
       state: {
-         profile: json
+         profile: data
       }
    };
 }
 
-function saveProfileSuccess(json) {
+function saveProfileSuccess(data) {
    return {
       type: EDIT_PROFILE,
       state: {
-         profile: json
+         profile: data
       }
    };
 }
 
-function addBankAccountSuccess(json) {
+function addBankAccountSuccess(data) {
    return {
       type: ADD_BANK_ACCOUNT,
       state: {
-         bankAccount: json
+         bankAccount: data
       }
    };
 }
 
-function saveBankAccountSuccess(json) {
+function saveBankAccountSuccess(data) {
    return {
       type: EDIT_BANK_ACCOUNT,
       state: {
-         bankAccount: json
+         bankAccount: data
       }
    };
 }
 
-function addPaymentMethodSuccess(json) {
+function addPaymentMethodSuccess(data) {
    return {
       type: ADD_PAYMENT_METHOD,
       state: {
-         paymentMethod: json
+         paymentMethod: data
       }
    };
 }
 
 export function getProfile(userId) {
-   const url = prefixUrl('/user' + (userId ? '/' + userId : ''));
+   const url = '/user' + (userId ? '/' + userId : '');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchGet())
+      return getJson(url)
          .then(checkStatus)
-         .then(res => res.json())
-         .then(json => {
-            dispatch(getProfileSuccess(json));
+         .then(response => {
+            dispatch(getProfileSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -72,13 +70,12 @@ export function getProfile(userId) {
 }
 
 export function saveProfile(user) {
-   const url = prefixUrl('/user');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPut(user))
+      return putJson('/user', user)
          .then(checkStatus)
-         .then(json => {
-            dispatch(saveProfileSuccess(json));
+         .then(response => {
+            dispatch(saveProfileSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -89,13 +86,12 @@ export function saveProfile(user) {
 }
 
 export function addBankAccount(bankAccount) {
-   const url = prefixUrl('/bankAccount');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(bankAccount))
+      return postJson('/bankAccount', bankAccount)
          .then(checkStatus)
-         .then(json => {
-            dispatch(addBankAccountSuccess(json));
+         .then(response => {
+            dispatch(addBankAccountSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -106,13 +102,12 @@ export function addBankAccount(bankAccount) {
 }
 
 export function saveBankAccount(bankAccount) {
-   const url = prefixUrl('/bankAccount');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPut(bankAccount))
+      return putJson('/bankAccount', bankAccount)
          .then(checkStatus)
-         .then(json => {
-            dispatch(saveBankAccountSuccess(json));
+         .then(response => {
+            dispatch(saveBankAccountSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
@@ -123,13 +118,12 @@ export function saveBankAccount(bankAccount) {
 }
 
 export function addPaymentMethod(paymentMethod) {
-   const url = prefixUrl('/paymentMethod');
    return dispatch => {
       dispatch(networkProgress());
-      return fetch(url, fetchPost(paymentMethod))
+      return postJson('/paymentMethod', paymentMethod)
          .then(checkStatus)
-         .then(json => {
-            dispatch(addPaymentMethodSuccess(json));
+         .then(response => {
+            dispatch(addPaymentMethodSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {

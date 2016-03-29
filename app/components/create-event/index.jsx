@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getBlobUrl, getImageUrl, formatDate } from '../../utils/helpers';
-import { prefixUrl, fetchPostFile } from '../../utils/network';
-import Rating from '../rating';
-import 'whatwg-fetch';
+import { getBlobUrl } from '../../utils/helpers';
+import { postFile } from '../../utils/network';
 
 class CreateEvent extends Component {
 
@@ -123,10 +121,14 @@ class CreateEvent extends Component {
       ev.target.form.reset();
       this.setState({ progress: 50 });
 
-      fetch(prefixUrl('/eventImage'), fetchPostFile(fileName))
-      .then(res => res.json())
-      .then(data => this.fileUploaded(data));
+      postFile('/eventImage', fileName, this.onProgress)
+         .then(res => res.json())
+         .then(data => this.fileUploaded(data));
    };
+
+   onProgress(obj) {
+      console.log('progress', obj);
+   }
 
    fileUploaded(data) {
       let images = this.state.images;

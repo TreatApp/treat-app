@@ -1,7 +1,6 @@
-import 'whatwg-fetch';
 import { browserHistory } from 'react-router';
-import { fetchPost, checkStatus, prefixUrl, logError} from 'utils/network';
-import {saveAuthToken, getAuthToken} from './utils/session';
+import { postJson, checkStatus, logError } from './utils/network';
+import { saveAuthToken, getAuthToken } from './utils/session';
 
 export const NETWORK = 'NETWORK';
 export const AUTHENTICATION = 'AUTHENTICATION';
@@ -123,7 +122,6 @@ function getInfo() {
 }
 
 function serverLogin(data) {
-   const url = prefixUrl('/auth');
    const user = {
       externalId: data.id,
       firstName: data.first_name,
@@ -131,7 +129,7 @@ function serverLogin(data) {
       email: data.email
    };
    return dispatch => {
-      return fetch(url, fetchPost(user))
+      return postJson('/auth', user)
          .then(checkStatus)
          .then(res => {
             dispatch(authenticated(true));

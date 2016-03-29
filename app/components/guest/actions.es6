@@ -1,26 +1,23 @@
-import 'whatwg-fetch';
-import { fetchGet, checkStatus, prefixUrl, logError} from '../../utils/network';
+import { getJson, checkStatus, logError} from '../../utils/network';
 import { networkFailed, resetNetwork } from '../../actions';
 
 export const GET_EVENTS = 'GET_EVENTS';
 
-function getEventsSuccess(json) {
+function getEventsSuccess(data) {
    return {
       type: GET_EVENTS,
       state: {
-         events: json
+         events: data
       }
    };
 }
 
 export function getEvents() {
-   const url = prefixUrl('/events');
    return dispatch => {
-      return fetch(url, fetchGet())
+      return getJson('/events')
          .then(checkStatus)
-         .then(res => res.json())
-         .then(json => {
-            dispatch(getEventsSuccess(json));
+         .then(response => {
+            dispatch(getEventsSuccess(response.data));
             dispatch(resetNetwork());
          })
          .catch(error => {
