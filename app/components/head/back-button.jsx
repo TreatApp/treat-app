@@ -1,19 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
-export default class Back extends Component {
-
-   constructor(props) {
-      super(props);
-
-      console.log('initibl back');
-
-      this.state = this.makeInitialState(props);
-   }
-
-   makeInitialState(props) {
-      return {
-      };
-   }
+export default class BackButton extends Component {
 
    goBack = ev => {
       ev.preventDefault();
@@ -27,9 +14,6 @@ export default class Back extends Component {
    }
 }
 
-Back.contextTypes = {
+BackButton.contextTypes = {
    router: PropTypes.object.isRequired
-};
-
-Back.propTypes = {
 };

@@ -13,62 +13,66 @@ class CreateEvent extends Component {
 
    makeInitialState(props) {
       return {
-         eventId: props.params.id
       };
    }
 
+   selectFile = ev => {
+      ev.preventDefault();
+      this.fileInput.click();
+      ev.target.blur();
+   };
+
    render() {
-      let eventId = this.state.eventId;
-      let { eventsState, userEventsState } = this.props;
-      let { events } = eventsState.merge(userEventsState).toJS();
-
-      let event = events.find(e => { return e.id == eventId; });
-
-      let { user, slotsAvailable, slots, location, title, categories, start, end, description, price, eventImages } = event;
-      let { externalId, rating, firstName, lastName } = user;
-
-      let imageUrl = getImageUrl(externalId, 'square');
-      let backgroundUrl = 'url(' + getBlobUrl(eventImages) + ')';
+      let { eventsState } = this.props;
 
       return (
-         <div className="container text-center">
-            <div style={{background: backgroundUrl, backgroundSize: '100%', height: 100}}></div>
-            <h3>{title}</h3>
-            <p>
-               {categories.map(category => {
-                  return <em key={category.id}>{category.name}</em>;
-               })}
-            </p>
-            <hr />
-            <div className="row">
-               <div className="col-xs-4">
-                  <i className="fa fa-2x fa-clock-o"></i><br />
-                  <strong>{formatDate(start, 'll')}</strong><br />
-                  {formatDate(start, 'LT')} - {formatDate(end, 'LT')}
+         <div>
+            <h3 className="text-center">Invite to dinner</h3>
+            <form>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="title" placeholder="Title" />
                </div>
-               <div className="col-xs-4">
-                  <i className="fa fa-2x fa-user"></i><br />
-                  <strong>{slots} seats</strong><br />
-                  {slotsAvailable} available
+               <div className="form-group">
+                  <textarea name="description" className="form-control" rows="4" placeholder="Description"></textarea>
                </div>
-               <div className="col-xs-4">
-                  <i className="fa fa-2x fa-money"></i><br />
-                  {price} SEK<br />
-                  (VAT incl.)
+               <div className="form-group">
+                  <input type="text" className="form-control" name="location[address]" placeholder="Address" />
                </div>
-            </div>
-            <hr />
-            <div>
-               <img src={imageUrl} className="img-circle" /><br />
-               Hosted by<br />
-               <a href="/user/profile/{{user.id}}">{firstName} {lastName}</a><br />
-               <Rating rating={rating || 0} />
-            </div>
-            <hr />
-            <p className="text-left">{description}</p>
-            <hr />
-            <br /><br />
-            <button className="btn btn-primary btn-block">Send request</button>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="location[city]" placeholder="City" />
+               </div>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="start" placeholder="Start date/time" />
+               </div>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="end" placeholder="End date/time" />
+               </div>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="slots" placeholder="Seats" />
+               </div>
+               <div className="form-group">
+                  <input type="text" className="form-control" name="price" placeholder="Price" />
+               </div>
+               <div id="categories">
+                  <label>Categories</label>
+                  <div className="checkbox-inline">
+                     <label>
+                        <input type="checkbox" name="categories[][id]" value="{id}" /> {name}
+                     </label>
+                  </div>
+               </div>
+               <br />
+               <p className="js-price-info"></p>
+            </form>
+            <hr /><br />
+            <form>
+               <button onClick={this.selectFile} className="btn btn-default btn-block">Upload image</button>
+               <input type="file" onChange={this.uploadFile} style={{display: 'none'}} ref={o => this.fileInput = o} />
+               <div className="progress progress-striped active hide">
+                  <div className="progress-bar progress-bar-info" style={{width: '0%'}}></div>
+               </div>
+               <div id="image-container"></div>
+            </form>
          </div>
       );
    }
