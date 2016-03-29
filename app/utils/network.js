@@ -35,6 +35,12 @@ export function fetchPost(body) {
    return jsonRequest('POST', body);
 }
 
+export function fetchPostFile(file) {
+   var formData = new FormData();
+   formData.append('file', file);
+   return withDefaultParams('POST', formData);
+}
+
 export function fetchPostForm(body) {
    return formRequest('POST', body);
 }
@@ -44,12 +50,12 @@ export function fetchGet(){
 }
 
 function jsonRequest(method, body) {
-   const json = body !== undefined ? { body: JSON.stringify(body) } : {};
+   const json = body ? JSON.stringify(body) : null;
    return withDefaultParams(method, json, 'application/json', 'application/json');
 }
 
 function formRequest(method, body) {
-   const form = body !== undefined ? { body: encodeFormData(body) } : {};
+   const form = body ? encodeFormData(body) : null;
    return withDefaultParams(method, form, '*/*', 'application/x-www-form-urlencoded');
 }
 
@@ -62,13 +68,22 @@ function encodeFormData(obj) {
 }
 
 function withDefaultParams(method, body, accept, contentType) {
-   return Object.assign({
+   let params = {
       headers: {
-         'Authorization': 'Basic ' + getAuthToken(),
-         'Accept': accept,
-         'Content-Type': contentType
+         'Authorization': 'Basic ' + getAuthToken()
       },
       mode: 'cors',
-      cache: 'default'
-   }, { method: method }, body);
+      cache: 'default',
+      method: method
+   };
+   if(body) {
+      params.body = body;
+   }
+   if(accept) {
+      params.headers = Object.assign(params.headers, { 'Accept': accept });
+   }
+   if(contentType) {
+      params.headers = Object.assign(params.headers, { 'Content-Type': contentType });
+   }
+   return params;
 }

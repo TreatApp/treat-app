@@ -11,7 +11,8 @@ module.exports = {
       return 'https://graph.facebook.com/' + externalId + '/picture?type=' + type;
    },
 
-   getBlobUrl(eventImages) {
-      return (eventImages.length > 0) ? 'https://treat.blob.core.windows.net/events/' + eventImages[0].fileName : '';
+   getBlobUrl(data) {
+      let fileName = (Array.isArray(data) && data.length > 0) ? data[0].fileName : data;
+      return (fileName.length > 0) ? 'https://treat.blob.core.windows.net/events/' + fileName : '';
    }
 };
