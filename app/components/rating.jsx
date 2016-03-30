@@ -14,8 +14,6 @@ export default class Rating extends Component {
       };
    }
 
-
-
    render() {
       return this.props.onSelected ? this.renderEdit() : this.renderReadOnly();
    }
@@ -53,7 +51,7 @@ export default class Rating extends Component {
       this.setState({ rating });
    }
 
-   mouseOut = e =>  {
+   mouseOut = ev =>  {
       this.setState({ rating: this.props.rating });
    };
 

@@ -1,18 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Spinner from 'spin.js';
 
-export default class Error extends Component {
-
-   constructor(props) {
-      super(props);
-
-      this.state = this.makeInitialState(props);
-   }
-
-   makeInitialState(props) {
-      return {
-      };
-   }
+export default class Loading extends Component {
 
    render() {
       return (
@@ -42,6 +31,3 @@ export default class Error extends Component {
       }
    }
 }
-
-Error.propTypes = {
-};

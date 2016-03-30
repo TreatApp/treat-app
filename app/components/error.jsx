@@ -10,15 +10,20 @@ export default class Error extends Component {
 
    makeInitialState(props) {
       return {
+         showError: true
       };
    }
 
+   componentDidMount() {
+      let that = this;
+      setTimeout(function() {
+         that.setState({ showError: false });
+      }, 3000);
+   }
+
    render() {
-      return (
-         <div className="error">Ett fel uppstod</div>
-      );
+      return this.state.showError ? (
+         <div className="error">Ett oväntat fel uppstod</div>
+      ) : null;
    }
 }
-
-Error.propTypes = {
-};

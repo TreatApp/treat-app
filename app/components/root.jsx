@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { initAuth, authenticate } from '../actions';
-import Progress from './progress';
+import Loading from './loading';
 import Error from './error';
 import Login from './login';
 import Head from './head';
@@ -24,7 +24,7 @@ class Root extends Component {
 
       return (
          <div>
-            {networkProgress ? <Progress /> : null}
+            {networkProgress ? <Loading /> : null}
             {networkFailed ? <Error /> : null}
             {authenticated ? this.renderContent() : <Login onLogin={this.onLogin} />}
          </div>

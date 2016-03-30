@@ -3,17 +3,6 @@ import { Link } from 'react-router'
 
 export default class Nav extends Component {
 
-   constructor(props) {
-      super(props);
-
-      this.state = this.makeInitialState(props);
-   }
-
-   makeInitialState(props) {
-      return {
-      };
-   }
-
    render() {
       return (
          <div className="navbar navbar-inverse navbar-fixed-bottom">
@@ -33,7 +22,4 @@ export default class Nav extends Component {
 
 Nav.contextTypes = {
    router: PropTypes.object.isRequired
-};
-
-Nav.propTypes = {
 };
