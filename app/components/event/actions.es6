@@ -13,7 +13,7 @@ function getEventLogsSuccess(data) {
    return {
       type: GET_EVENT_LOGS,
       state: {
-         logs: data
+         eventLogs: data
       }
    };
 }
@@ -22,7 +22,7 @@ function getEventRequestsSuccess(data) {
    return {
       type: GET_EVENT_REQUESTS,
       state: {
-         requests: data
+         eventRequests: data
       }
    };
 }
@@ -31,7 +31,7 @@ function addEventLogSuccess(data) {
    return {
       type: ADD_EVENT_LOG,
       state: {
-         log: data
+         eventLog: data
       }
    };
 }
@@ -40,7 +40,7 @@ function addEventRequestSuccess(data) {
    return {
       type: ADD_EVENT_REQUEST,
       state: {
-         request: data
+         eventRequest: data
       }
    };
 }
@@ -49,7 +49,7 @@ function updateEventRequestSuccess(data) {
    return {
       type: UPDATE_EVENT_REQUEST,
       state: {
-         request: data
+         eventRequest: data
       }
    };
 }
@@ -58,7 +58,7 @@ function saveEventRatingSuccess(data) {
    return {
       type: SAVE_EVENT_RATING,
       state: {
-         rating: data
+         eventRating: data
       }
    };
 }
@@ -67,14 +67,14 @@ function saveUserRatingSuccess(data) {
    return {
       type: SAVE_USER_RATING,
       state: {
-         rating: data
+         userRating: data
       }
    };
 }
 
-export function getEventLogs() {
+export function getEventLogs(eventId) {
    return dispatch => {
-      return getJson('/eventLogs')
+      return getJson('/eventLogs/' + eventId)
          .then(checkStatus)
          .then(response => {
             dispatch(getEventLogsSuccess(response.data));
@@ -87,10 +87,10 @@ export function getEventLogs() {
    };
 }
 
-export function getEventRequests() {
+export function getEventRequests(eventId) {
    return dispatch => {
       dispatch(networkProgress());
-      return getJson('/eventRequests')
+      return getJson('/eventRequests/' + eventId)
          .then(checkStatus)
          .then(response => {
             dispatch(getEventRequestsSuccess(response.data));

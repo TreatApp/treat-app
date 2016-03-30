@@ -2,7 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { getBlobUrl, getImageUrl, formatDate } from '../../utils/helpers';
+import { getEventLogs, getEventRequests, addEventLog, addEventRequest, updateEventRequest } from './actions';
 import Rating from '../rating';
+import EventLog from './event-log';
+import EventRequests from './event-requests';
 
 class Event extends Component {
 
@@ -18,11 +21,19 @@ class Event extends Component {
       };
    }
 
-   render() {
-      let eventId = this.state.eventId;
-      let { eventsState, userEventsState } = this.props;
-      let { events } = eventsState.merge(userEventsState).toJS();
+   componentWillMount() {
+      let { dispatch } = this.props;
+      let { eventId } = this.state;
 
+      dispatch(getEventLogs(eventId));
+      dispatch(getEventRequests(eventId));
+   }
+
+   render() {
+      let { eventId } = this.state;
+      let { eventState, eventsState, userEventsState } = this.props;
+      let { eventLogs, eventRequests } = eventState.toJS();
+      let { events } = eventsState.merge(userEventsState).toJS();
       let event = events.find(e => { return e.id == eventId; });
 
       let { user, slotsAvailable, slots, location, title, categories, start, end, description, price, eventImages } = event;
@@ -69,9 +80,36 @@ class Event extends Component {
             <p className="text-left">{description}</p>
             <hr />
             <br /><br />
-            <button className="btn btn-primary btn-block">Send request</button>
+            <button className="btn btn-primary btn-block" onClick={this.onSendRequest}>Send request</button>
+
+            <EventLog eventLogs={eventLogs} onSaveEventLog={this.onSaveEventLog} />
+            <EventRequests eventRequests={eventRequests} onRequestAccept={this.onRequestAccept} onRequestDecline={this.onRequestDecline} />
          </div>
       );
+   }
+
+   onSendRequest = ev => {
+      ev.preventDefault();
+      let { dispatch } = this.props;
+      dispatch(addEventRequest({
+         eventId: this.state.eventId
+      }));
+   };
+
+   onSaveEventLog(eventLog) {
+      console.log('save event log', eventLog, this.props);
+      let { dispatch } = this.props;
+      dispatch(addEventLog(eventLog));
+   }
+
+   onRequestAccept(eventRequest) {
+      let { dispatch } = this.props;
+      dispatch(addEventRequest(eventRequest));
+   }
+
+   onRequestDecline(eventRequest) {
+      let { dispatch } = this.props;
+      dispatch(updateEventRequest(eventRequest));
    }
 }
 
@@ -83,10 +121,11 @@ Event.propTypes = {
 };
 
 function propProvider(reduxState, props) {
-   const {appState, eventsState, userEventsState} = reduxState;
+   const {appState, eventState, eventsState, userEventsState} = reduxState;
 
    return {
       appState,
+      eventState,
       eventsState,
       userEventsState
    };

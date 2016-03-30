@@ -20,7 +20,7 @@ export default class EventRequests extends Component {
       return (
          <div>
             {eventRequests.map(eventRequest => {
-               return <EventRequestItem key={eventRequest.id} eventRequest={eventRequest}
+               return <EventRequestItem key={eventRequest.user.id} eventRequest={eventRequest}
                                         onRequestAccept={onRequestAccept} onRequestDecline={onRequestDecline} />;
             })}
          </div>
