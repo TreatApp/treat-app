@@ -21,7 +21,7 @@ function getCategoriesSuccess(data) {
    return {
       type: GET_CATEGORIES,
       state: {
-         events: data
+         categories: data
       }
    };
 }

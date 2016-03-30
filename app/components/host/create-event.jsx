@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { uploadImage } from './actions';
+import { getCategories, uploadImage } from './actions';
 import { getBlobUrl } from '../../utils/helpers';
 
 class CreateEvent extends Component {
@@ -18,9 +18,14 @@ class CreateEvent extends Component {
       };
    }
 
+   componentWillMount() {
+      let { dispatch } = this.props;
+      dispatch(getCategories());
+   }
+
    render() {
       let { createEventState } = this.props;
-      let { images, progress } = createEventState.toJS();
+      let { categories, images, progress } = createEventState.toJS();
 
       return (
          <div>
@@ -52,11 +57,15 @@ class CreateEvent extends Component {
                </div>
                <div id="categories">
                   <label>Categories</label><br />
-                  <div className="checkbox-inline">
-                     <label>
-                        <input type="checkbox" name="categories[][id]" value="{id}" /> {name}
-                     </label>
-                  </div>
+                  {categories.map(category => {
+                     return (
+                        <div className="checkbox-inline" key={category.id}>
+                           <label>
+                              <input type="checkbox" name="categories[][id]" value={category.id} /> {category.name}
+                           </label>
+                        </div>
+                     );
+                  })}
                </div>
                <br />
                {this.renderPriceInformation()}
