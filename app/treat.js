@@ -1,71 +1,58 @@
-var Application = require('application');
-var Auth = require('utils/auth');
-var Url = require('utils/url');
-var ErrorView = require('views/error-view');
-var LoadingView = require('views/loading-view');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { Router, Route, IndexRedirect, IndexRoute, hashHistory } from 'react-router'
+import configureStore from './configure-store';
 
-$(function () {
-   window.isPhone = false;
+import Root from './components/root';
+import Guest from './components/guest';
+import Host from './components/host';
+import User from './components/user';
+import Nav from './components/nav';
+import BackButton from './components/head/back-button';
+import CreateEventButton from './components/head/create-event-button';
 
-   if (document.URL.indexOf("http://") === -1 && document.URL.indexOf("https://") === -1) {
-      window.isPhone = true;
-   }
+import Profile from './components/user/profile';
+import EditProfile from './components/user/edit-profile';
+import BankAccount from './components/user/bank-account';
+import EditBankAccount from './components/user/edit-bank-account';
+import CreditCard from './components/user/credit-card';
+import EditCreditCard from './components/user/edit-credit-card';
 
-   if (window.isPhone) {
-      document.addEventListener("deviceready", onDeviceReady, false);
-   }
-   else {
-      onDeviceReady();
-   }
-});
+import Event from './components/event';
+import CreateEvent from './components/host/create-event';
 
-function onDeviceReady() {
-   if(window.isPhone) {
-      FastClick.attach(document.body);
-   }
+window.isPhone = (window.location.protocol === 'file:');
 
-   Auth.initialize();
-
-   $.ajaxSetup({
-      beforeSend: function(jqXHR) {
-         this.url = Url.prefix(this.url);
-
-         if(Auth.getToken()) {
-            jqXHR.setRequestHeader('Authorization', 'Basic ' + Auth.getToken());
-         }
-      }
-   });
-
-   $(document).ajaxStart(function() {
-      Chaplin.mediator.publish('loading:show');
-   });
-
-   $(document).ajaxStop(function() {
-      Chaplin.mediator.publish('loading:hide');
-   });
-
-   $(document).ajaxError(function(event, jqXHR, ajaxSettings, thrownError) {
-      Chaplin.mediator.publish('error:show', 'Nätverksanropet misslyckades (' + jqXHR.status  + ')');
-   });
-
-   Handlebars.registerHelper('date', function(date, format) {
-      return moment(date).format(format);
-   });
-
-   Handlebars.registerHelper('blob', function(files) {
-      if(files.length > 0) {
-         return 'https://treat.blob.core.windows.net/events/' + files[0].fileName;
-      }
-      return '';
-   });
-
-   new ErrorView();
-   new LoadingView();
-
-   new Application({
-         title: 'Treat',
-         controllerSuffix: '-controller',
-         routes: require('routes')
-      }
+document.addEventListener(window.isPhone ? 'deviceready' : 'DOMContentLoaded', () => {
+   ReactDOM.render(
+      <Provider store={configureStore()}>
+         <Router history={hashHistory}>
+            <Route path="/" component={Root}>
+               <IndexRedirect to="guest" />
+               <Route path="guest" components={{content: Guest, nav: Nav}} />
+               <Route path="host" components={{content: Host, nav: Nav, rightControl: CreateEventButton}} />
+               <Route path="user">
+                  <IndexRoute components={{content: User, nav: Nav}} />
+                  <Route path="profile">
+                     <IndexRoute components={{content: Profile, nav: Nav, leftControl: BackButton}} />
+                     <Route path="edit" components={{content: EditProfile, nav: Nav, leftControl: BackButton}} />
+                  </Route>
+                  <Route path="bank-account">
+                     <IndexRoute components={{content: BankAccount, nav: Nav, leftControl: BackButton}} />
+                     <Route path="edit" components={{content: EditBankAccount, nav: Nav, leftControl: BackButton}} />
+                  </Route>
+                  <Route path="credit-card">
+                     <IndexRoute components={{content: CreditCard, nav: Nav, leftControl: BackButton}} />
+                     <Route path="edit" components={{content: EditCreditCard, nav: Nav, leftControl: BackButton}} />
+                  </Route>
+               </Route>
+               <Route path="event/create" components={{content: CreateEvent, leftControl: BackButton}} />
+               <Route path="event/:id" components={{content: Event, leftControl: BackButton}} />
+               <Route path="profile/:id" components={{content: Profile, leftControl: BackButton}} />
+            </Route>
+         </Router>
+      </Provider>,
+      document.getElementById('treat-root')
    );
-}
+});
