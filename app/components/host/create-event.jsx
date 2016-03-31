@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getCategories, uploadImage } from './actions';
+import { getCategories, uploadImage, addEvent } from './actions';
 import { getBlobUrl } from '../../utils/helpers';
 
 class CreateEvent extends Component {
@@ -14,7 +14,8 @@ class CreateEvent extends Component {
    makeInitialState(props) {
       return {
          slots: 0,
-         price: 0
+         price: 0,
+         categories: []
       };
    }
 
@@ -32,28 +33,28 @@ class CreateEvent extends Component {
             <h3 className="text-center">Invite to dinner</h3>
             <form>
                <div className="form-group">
-                  <input type="text" className="form-control" name="title" placeholder="Title" />
+                  <input type="text" className="form-control" placeholder="Title" ref={o => this._title = o} />
                </div>
                <div className="form-group">
-                  <textarea name="description" className="form-control" rows="4" placeholder="Description"></textarea>
+                  <textarea className="form-control" rows="4" placeholder="Description" ref={o => this._description = o}></textarea>
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="location[address]" placeholder="Address" />
+                  <input type="text" className="form-control" placeholder="Address" ref={o => this._address = o} />
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="location[city]" placeholder="City" />
+                  <input type="text" className="form-control" placeholder="City" ref={o => this._city = o} />
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="start" placeholder="Start date/time" />
+                  <input type="text" className="form-control" placeholder="Start date/time" ref={o => this._start = o} />
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="end" placeholder="End date/time" />
+                  <input type="text" className="form-control" placeholder="End date/time" ref={o => this._end = o} />
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="slots" placeholder="Seats" onChange={this.slotsChanged} />
+                  <input type="text" className="form-control" placeholder="Seats" onChange={this.slotsChanged} />
                </div>
                <div className="form-group">
-                  <input type="text" className="form-control" name="price" placeholder="Price" onChange={this.priceChanged} />
+                  <input type="text" className="form-control" placeholder="Price" onChange={this.priceChanged} />
                </div>
                <div id="categories">
                   <label>Categories</label><br />
@@ -61,7 +62,7 @@ class CreateEvent extends Component {
                      return (
                         <div className="checkbox-inline" key={category.id}>
                            <label>
-                              <input type="checkbox" name="categories[][id]" value={category.id} /> {category.name}
+                              <input type="checkbox" value={category.id} onClick={this.categoryChanged} /> {category.name}
                            </label>
                         </div>
                      );
@@ -76,11 +77,11 @@ class CreateEvent extends Component {
                let fileName = image.fileName;
                return (
                   <div className="img-thumbnail" key={'div' + index}>
-                     <input type="hidden" name="eventImages[][fileName]" value={fileName} key={'input' + index} />
-                     <img src={getBlobUrl(fileName)} style={{width: 100, height: 100}} key={'img' + index} />
+                     <img src={getBlobUrl(fileName)} style={{width: 100, height: 100}} />
                   </div>
                );
             })}
+            <button type="button" className="btn btn-block btn-primary" onClick={this.createEvent}>Create event</button>
          </div>
       );
    }
@@ -91,6 +92,19 @@ class CreateEvent extends Component {
 
    priceChanged = ev => {
       this.setState({ price: parseInt(ev.target.value) });
+   };
+
+   categoryChanged = ev => {
+      let categories = this.state.categories;
+      let value = { id: ev.target.value };
+      if(ev.target.checked) {
+         categories.push(value);
+      }
+      else {
+         let index = categories.indexOf(value);
+         categories.splice(index, 1);
+      }
+      this.setState({ categories: categories });
    };
 
    renderPriceInformation() {
@@ -129,6 +143,28 @@ class CreateEvent extends Component {
 
       let { dispatch } = this.props;
       dispatch(uploadImage(fileName));
+   };
+
+   createEvent = ev => {
+      let { slots, price, categories } = this.state;
+      let { dispatch, createEventState } = this.props;
+      let { images } = createEventState.toJS();
+
+      var event = {
+         title: this._title.value,
+         description: this._description.value,
+         location: {
+            address: this._address.value,
+            city: this._city.value
+         },
+         start: this._start.value,
+         end: this._end.value,
+         slots: slots,
+         price: price,
+         categories: categories,
+         eventImages: images
+      };
+      dispatch(addEvent(event));
    };
 }
 

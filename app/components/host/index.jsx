@@ -5,17 +5,6 @@ import { getUserEvents } from './actions';
 
 class Host extends Component {
 
-   constructor(props) {
-      super(props);
-
-      this.state = this.makeInitialState(props);
-   }
-
-   makeInitialState(props) {
-      return {
-      };
-   }
-
    componentWillMount() {
       const {dispatch} = this.props;
       dispatch(getUserEvents());
