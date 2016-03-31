@@ -91,26 +91,25 @@ class Event extends Component {
    onSendRequest = ev => {
       ev.preventDefault();
       let { dispatch } = this.props;
-      dispatch(addEventRequest({
-         eventId: this.state.eventId
-      }));
+      dispatch(addEventRequest(this.state.eventId, { status: 0 }));
    };
 
-   onSaveEventLog(eventLog) {
-      console.log('save event log', eventLog, this.props);
+   onSaveEventLog = eventLog => {
       let { dispatch } = this.props;
-      dispatch(addEventLog(eventLog));
-   }
+      dispatch(addEventLog(this.state.eventId, eventLog));
+   };
 
-   onRequestAccept(eventRequest) {
+   onRequestAccept = eventRequest => {
       let { dispatch } = this.props;
-      dispatch(addEventRequest(eventRequest));
-   }
+      let newEventRequest = Object.assign(eventRequest, { status: 1 });
+      dispatch(updateEventRequest(this.state.eventId, newEventRequest));
+   };
 
-   onRequestDecline(eventRequest) {
+   onRequestDecline = eventRequest => {
       let { dispatch } = this.props;
-      dispatch(updateEventRequest(eventRequest));
-   }
+      let newEventRequest = Object.assign(eventRequest, { status: 2 });
+      dispatch(updateEventRequest(this.state.eventId, newEventRequest));
+   };
 }
 
 Event.propTypes = {

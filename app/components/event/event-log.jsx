@@ -3,17 +3,6 @@ import EventLogItem from './event-log-item';
 
 export default class EventLog extends Component {
 
-   constructor(props) {
-      super(props);
-
-      this.state = this.makeInitialState(props);
-   }
-
-   makeInitialState(props) {
-      return {
-      };
-   }
-
    render() {
       let { eventLogs } = this.props;
 
@@ -39,7 +28,6 @@ export default class EventLog extends Component {
    onFormSubmit = ev => {
       ev.preventDefault();
       this.props.onSaveEventLog({
-         eventId: 0,
          text: this.textInput.value
       });
    };

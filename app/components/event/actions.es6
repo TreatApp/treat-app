@@ -103,10 +103,10 @@ export function getEventRequests(eventId) {
    };
 }
 
-export function addEventLog(log) {
+export function addEventLog(eventId, log) {
    return dispatch => {
       dispatch(networkProgress());
-      return postJson('/eventLogs', log)
+      return postJson('/eventLogs/' + eventId, log)
          .then(checkStatus)
          .then(response => {
             dispatch(addEventLogSuccess(response.data));
@@ -119,10 +119,10 @@ export function addEventLog(log) {
    };
 }
 
-export function addEventRequest(request) {
+export function addEventRequest(eventId, request) {
    return dispatch => {
       dispatch(networkProgress());
-      return postJson('/eventRequests', request)
+      return postJson('/eventRequests/' + eventId, request)
          .then(checkStatus)
          .then(response => {
             dispatch(addEventRequestSuccess(response.data));
@@ -135,10 +135,10 @@ export function addEventRequest(request) {
    };
 }
 
-export function updateEventRequest(request) {
+export function updateEventRequest(eventId, request) {
    return dispatch => {
       dispatch(networkProgress());
-      return putJson('/eventRequests', request)
+      return putJson('/eventRequests/' + eventId, request)
          .then(checkStatus)
          .then(response => {
             dispatch(updateEventRequestSuccess(response.data));

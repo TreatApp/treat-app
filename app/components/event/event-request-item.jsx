@@ -15,7 +15,7 @@ export default class EventRequestItem extends Component {
          <div className="panel panel-default">
             <div className="panel-body">
                <img src={imageUrl} className="img-circle" />
-               <Link to={'/user/profile/' + id}>{firstName} {lastName}</Link>
+               <Link to={'/profile/' + id}>{firstName} {lastName}</Link>
                <div className="pull-right">
                   <Rating rating={rating} />
                   <a href="#" className="text-success" onClick={this.onAcceptClick}><i className="fa fa-2x fa-check-circle-o"></i></a>
