@@ -13,6 +13,6 @@ module.exports = {
 
    getBlobUrl(data) {
       let fileName = (Array.isArray(data) && data.length > 0) ? data[0].fileName : data;
-      return (fileName.length > 0) ? 'https://treat.blob.core.windows.net/events/' + fileName : '';
+      return (fileName.length > 0) ? 'https://treatapp.blob.core.windows.net/events/' + fileName : '';
    }
 };

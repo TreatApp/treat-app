@@ -2,7 +2,7 @@ import axios, { xhr, dispatchRequest } from 'axios';
 import { getAuthToken } from './session';
 
 const instance = axios.create({
-   baseURL: 'http://treat.azurewebsites.net/api',
+   baseURL: 'http://app.thisistreat.com/api',
    headers: {
       'Authorization': 'Basic ' + getAuthToken()
    }
